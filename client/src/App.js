@@ -20,6 +20,15 @@ function App() {
     });
   };
 
+  const test = () => {
+    axios({
+      url: "http://localhost:8000/test",
+      method: "GET",
+    }).then((res) => {
+      console.log(res.data);
+    });
+  };
+
   useEffect(() => {
     try {
       axios({
@@ -55,6 +64,9 @@ function App() {
         ) : (
           <Login setUser={setUser} setIsLogin={setIsLogin} />
         )}
+        <br />
+        <br />
+        <button onClick={test}>TEST</button>
       </header>
     </div>
   );
