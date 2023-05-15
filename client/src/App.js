@@ -10,11 +10,11 @@ function App() {
 
   const logout = () => {
     axios({
-      url: "http://localhost:8000/logout",
+      url: "http://localhost:8000/auth/logout",
       method: "POST",
       withCredentials: true,
-    }).then((result) => {
-      if (result.status === 200) {
+    }).then((res) => {
+      if (res.status === 200) {
         window.open("/", "_self");
       }
     });
@@ -22,7 +22,7 @@ function App() {
 
   const test = () => {
     axios({
-      url: "http://localhost:8000/test",
+      url: "http://localhost:8000/auth/test",
       method: "GET",
     }).then((res) => {
       console.log(res.data);
@@ -32,14 +32,15 @@ function App() {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/login/success",
+        url: "http://localhost:8000/auth/login/success",
         method: "GET",
         withCredentials: true,
       })
-        .then((result) => {
-          if (result.data) {
+        .then((res) => {
+          if (res) {
             setIsLogin(true);
-            setUser(result.data);
+            setUser(res.data);
+            console.log(res.data);
           }
         })
         .catch((error) => {
@@ -56,7 +57,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         {isLogin ? (
           <>
-            <h3>{user.username} 님이 로그인했습니다.</h3>
+            <h3>{user.userName} 님 환영합니다.</h3>
             <button onClick={logout} className="loginButton">
               Logout
             </button>

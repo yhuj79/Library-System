@@ -4,17 +4,17 @@ import "./login.css";
 import axios from "axios";
 
 export default function Login({ setIsLogin, setUser }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userID, setUserID] = useState('');
+  const [passwd, setPasswd] = useState('');
 
   const login = () => {
     axios({
-      url: "http://localhost:8000/login",
+      url: "http://localhost:8000/auth/login",
       method: "POST",
       withCredentials: true,
       data: {
-        email: email,
-        password: password,
+        userID: userID,
+        passwd: passwd,
       },
     }).then((result) => {
       if (result.status === 200) {
@@ -27,23 +27,23 @@ export default function Login({ setIsLogin, setUser }) {
     <div>
       <div className="loginContainer">
         <div className="inputGroup">
-          <label className="inputLabel">email</label>
+          <label className="inputLabel">아이디</label>
           <input
-            type="email"
-            placeholder="email"
+            type="id"
+            placeholder="userID"
             className="inputValue"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={(e) => setUserID(e.target.value)}
+            value={userID}
           />
         </div>
         <div className="inputGroup">
-          <label className="inputLabel">password</label>
+          <label className="inputLabel">비밀번호</label>
           <input
             type="password"
             placeholder="password"
             className="inputValue"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={(e) => setPasswd(e.target.value)}
+            value={passwd}
           />
         </div>
         <button onClick={login} className="loginButton">Login</button>
