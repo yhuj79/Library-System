@@ -1,0 +1,27 @@
+.gnb {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    background-color: #21512C;
+}
+
+.link {
+    display: flex;
+}
+
+.gnb h1 {
+    color: #BAD060;
+    margin: 25px;
+}
+
+.gnb h2 {
+    color: #FFF;
+    font-size: 22px;
+    margin: 30px;
+}
+
+@media screen and (max-width: 990px) {
+    .gnb h2 {
+        font-size: 15px;
+    }
+}

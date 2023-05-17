@@ -1,0 +1,31 @@
+.header {
+    background-color: #FFF;
+}
+
+.wrap {
+    float: right;
+}
+
+.box {
+    display: flex;
+}
+
+.header li {
+    cursor: pointer;
+    text-align: center;
+    list-style-type: none;
+    border-left: 1px solid #DBDBDB;
+    padding: 7px 20px;
+    font-size: 17px;
+}
+
+.header li:hover {
+    background-color: #E5E5E5;
+}
+
+@media screen and (max-width: 385px) {
+    .header li {
+        font-size: 12px;
+        padding: 4px 12px;
+    }
+}
