@@ -6,7 +6,7 @@ import styles from "../style/Header.module.css";
 function Header({ isLogin, user }) {
   const navigate = useNavigate();
 
-  const logout = () => {
+  function Logout() {
     axios({
       url: "http://localhost:8000/auth/logout",
       method: "POST",
@@ -16,7 +16,7 @@ function Header({ isLogin, user }) {
         window.open("/", "_self");
       }
     });
-  };
+  }
 
   return (
     <div className={styles.header}>
@@ -26,8 +26,8 @@ function Header({ isLogin, user }) {
             <li>
               <strong>{user.userName}</strong>님 반갑습니다.
             </li>
-            <li>내 정보</li>
-            <li onClick={logout}>로그아웃</li>
+            <li onClick={() => navigate("/mypage")}>내 정보</li>
+            <li onClick={Logout}>로그아웃</li>
           </div>
         ) : (
           <div className={styles.box}>

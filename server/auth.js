@@ -26,7 +26,7 @@ router.post("/login", (req, res) => {
               },
               process.env.ACCESS_SECRET,
               {
-                expiresIn: "5m",
+                expiresIn: "60m",
                 issuer: "About Tech",
               }
             );
@@ -158,20 +158,92 @@ router.post("/logout", (req, res) => {
   }
 });
 
-router.get("/test", (req, res) => {
-  const userID = "admin";
-  const passwd = "admin";
+router.post("/register", (req, res) => {
+  const { userID, passwd, email, userName, userAffiliation, profileImg } =
+    req.body;
+
+  const regexId = /^[a-z]+[a-z0-9]{5,19}$/g;
+  const regexName = /^[가-힣]{2,15}$/;
+  const regexPw =
+    /^[A-Za-z0-9`~!@#\$%\^&\*\(\)\{\}\[\]\-_=\+\\|;:'"<>,\./\?]{8,20}$/;
+  const regexEmail =
+    /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
   db.query(
-    `SELECT * FROM sys.USER WHERE userID="${userID}" AND passwd="${passwd}"`,
+    `SELECT userID FROM sys.USER WHERE userID="${userID}"`,
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        res.send(result[0]);
+        if (result.length > 0) {
+          res.status(403).json("userID Duplication");
+        } else if (!regexId.test(userID)) {
+          res.status(403).json("userID Validate Failed");
+        } else if (!regexName.test(userName)) {
+          res.status(403).json("userName Validate Failed");
+        } else if (!regexPw.test(passwd)) {
+          res.status(403).json("passwd Validate Failed");
+        } else if (!regexEmail.test(email)) {
+          res.status(403).json("email Validate Failed");
+        } else if (!regexName.test(userAffiliation)) {
+          res.status(403).json("userAffiliation Validate Failed");
+        } else {
+          const sql = "INSERT INTO sys.USER VALUES (?, ?, ?, ?, ?, ?, b'0')";
+          const params = [
+            userID,
+            email,
+            userName,
+            passwd,
+            userAffiliation,
+            profileImg,
+          ];
+          db.query(sql, params, (err, rows, fields) => {
+            res.send(rows);
+          });
+        }
       }
     }
   );
+});
+
+router.post("/update", (req, res) => {
+  const { userID, passwd, email, userName, userAffiliation, profileImg } =
+    req.body;
+
+  const regexId = /^[a-z]+[a-z0-9]{5,19}$/g;
+  const regexName = /^[가-힣]{2,15}$/;
+  const regexPw =
+    /^[A-Za-z0-9`~!@#\$%\^&\*\(\)\{\}\[\]\-_=\+\\|;:'"<>,\./\?]{8,20}$/;
+  const regexEmail =
+    /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+  if (!regexId.test(userID)) {
+    res.status(403).json("userID Validate Failed");
+  } else if (!regexName.test(userName)) {
+    res.status(403).json("userName Validate Failed");
+  } else if (!regexPw.test(passwd)) {
+    res.status(403).json("passwd Validate Failed");
+  } else if (!regexEmail.test(email)) {
+    res.status(403).json("email Validate Failed");
+  } else if (!regexName.test(userAffiliation)) {
+    res.status(403).json("userAffiliation Validate Failed");
+  } else {
+    const sql =
+      "UPDATE sys.USER SET userID= ?, email= ?, userName= ?, passwd= ?, userAffiliation= ?, profileImg= ? WHERE userID= ?";
+
+    const params = [
+      userID,
+      email,
+      userName,
+      passwd,
+      userAffiliation,
+      profileImg,
+      userID,
+    ];
+    db.query(sql, params, (err, rows, fields) => {
+      res.send(rows);
+    });
+  }
 });
 
 module.exports = router;

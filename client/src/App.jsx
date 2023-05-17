@@ -12,6 +12,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Gnb from "./components/Gnb";
 import Register from "./pages/Register";
+import Mypage from "./pages/Mypage";
+import MypageUpdate from "./pages/MypageUpdate";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -28,7 +30,6 @@ function App() {
           if (res) {
             setIsLogin(true);
             setUser(res.data);
-            console.log(res.data);
           }
         })
         .catch((err) => {
@@ -52,6 +53,14 @@ function App() {
         <Route
           path="/register"
           element={!isLogin ? <Register /> : <Navigate replace to="/" />}
+        />
+        <Route
+          path="/mypage"
+          element={isLogin ? <Mypage /> : <Navigate replace to="/" />}
+        />
+        <Route
+          path="/mypage/update"
+          element={isLogin ? <MypageUpdate /> : <Navigate replace to="/" />}
         />
       </Routes>
     </Router>

@@ -40,6 +40,7 @@ export default function Login() {
         <div className={styles.inputBox}>
           <p className={styles.label}>아이디</p>
           <Input
+            className={styles.inputText}
             type="id"
             placeholder="ID"
             onChange={(e) => setUserID(e.target.value)}
@@ -49,6 +50,7 @@ export default function Login() {
         <div className={styles.inputBox}>
           <p className={styles.label}>비밀번호</p>
           <Input
+            className={styles.inputText}
             type="password"
             placeholder="PASSWORD"
             onChange={(e) => setPasswd(e.target.value)}

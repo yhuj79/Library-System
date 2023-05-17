@@ -1,15 +1,49 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { storage } from "../hooks/firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { Button, Input, Modal } from "semantic-ui-react";
 import styles from "../style/Input.module.css";
-import { useNavigate } from "react-router-dom";
 import profileDefault from "../assets/user/profile-default.jpg";
 
-export default function Login() {
-  const navigate = useNavigate();
+export default function MyInfoUpdate() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    try {
+      axios({
+        url: "http://localhost:8000/auth/login/success",
+        method: "GET",
+        withCredentials: true,
+      })
+        .then((res) => {
+          setUserID(res.data.userID);
+          setEmail(res.data.email);
+          setUserName(res.data.userName);
+          setUserAffiliation(res.data.userAffiliation);
+          setProfileImg(res.data.profileImg);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  function Logout() {
+    axios({
+      url: "http://localhost:8000/auth/logout",
+      method: "POST",
+      withCredentials: true,
+    }).then((res) => {
+      if (res.status === 200) {
+        setOpen(true);
+        setLoading(false);
+      }
+    });
+  }
+
   const [userID, setUserID] = useState("");
   const [passwd, setPasswd] = useState("");
   const [email, setEmail] = useState("");
@@ -18,14 +52,12 @@ export default function Login() {
   const [profileImg, setProfileImg] = useState("profileDefault");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const [checkedInputs, setCheckedInputs] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  async function Register() {
+  async function Update() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/auth/register",
+      url: "http://localhost:8000/auth/update",
       method: "POST",
       withCredentials: true,
       data: {
@@ -39,16 +71,12 @@ export default function Login() {
     })
       .then((result) => {
         if (result.status === 200) {
-          console.log("Register Complete!");
-          setOpen(true);
-          setLoading(false);
+          console.log("Update Complete!");
+          Logout();
         }
       })
       .catch((err) => {
-        if (err.response.data === "userID Duplication") {
-          setErr("중복된 아이디가 존재합니다.");
-          setLoading(false);
-        } else if (err.response.data === "userID Validate Failed") {
+        if (err.response.data === "userID Validate Failed") {
           setErr("아이디 형식은 6~20자리 영문, 숫자입니다.");
           setLoading(false);
         } else if (err.response.data === "userName Validate Failed") {
@@ -64,7 +92,7 @@ export default function Login() {
           setErr("소속명 형식은 2~15자리 한글입니다.");
           setLoading(false);
         } else {
-          setErr("회원가입 실패. 잠시 후 다시 시도해 주세요.");
+          setErr("수정 실패. 잠시 후 다시 시도해 주세요.");
           setLoading(false);
         }
       });
@@ -88,18 +116,9 @@ export default function Login() {
     }
   }
 
-  const changeHandler = (checked, id) => {
-    if (checked) {
-      setCheckedInputs([...checkedInputs, id]);
-    } else {
-      setCheckedInputs(checkedInputs.filter((el) => el !== id));
-    }
-  };
-  const isChecked = checkedInputs.length === 1;
-
   return (
-    <div className={styles.registerInput}>
-      <h1>회원가입</h1>
+    <div className={styles.updateInput}>
+      <h1>정보 수정</h1>
       <div className={styles.wrap}>
         <div className={styles.inputBox}>
           <p className={styles.label}>아이디</p>
@@ -109,6 +128,9 @@ export default function Login() {
             placeholder="ID"
             onChange={(e) => setUserID(e.target.value)}
             value={userID}
+            readOnly
+            label={{ icon: "ban" }}
+            labelPosition="right corner"
           />
         </div>
         <div className={styles.inputBox}>
@@ -176,43 +198,17 @@ export default function Login() {
             accept="image/*"
           />
         </div>
-        <p className={styles.clause}>
-          이 사이트는 연습용 프로젝트 입니다.
-          <br />
-          사용하는 Access Token에 예상치 못한 보안 문제가 발생할 가능성이
-          있습니다.
-          <br />
-          따라서 다른 웹사이트와 관련된 비밀번호를 입력하는 것은 권장하지
-          않습니다.
-        </p>
-        <div style={{ textAlign: "center" }}>
-          <input
-            style={{ verticalAlign: "middle" }}
-            type="checkbox"
-            id="check"
-            onChange={(e) => {
-              changeHandler(e.currentTarget.checked, "check");
-            }}
-          />
-          &emsp;약관을 모두 확인하였습니다.
-        </div>
         <div className={styles.errDiv}>
           {err && <p className={styles.errText}>{err}</p>}
         </div>
         <div className={styles.buttonBox}>
           {!loading ? (
-            isChecked ? (
-              <Button onClick={Register} positive>
-                회원가입
-              </Button>
-            ) : (
-              <Button positive disabled>
-                회원가입
-              </Button>
-            )
+            <Button onClick={Update} positive>
+              수정
+            </Button>
           ) : (
             <Button positive disabled>
-              회원가입
+              수정
             </Button>
           )}
         </div>
@@ -222,18 +218,17 @@ export default function Login() {
         onOpen={() => setOpen(true)}
         open={open}
       >
-        <Modal.Header>회원가입 완료 😄</Modal.Header>
+        <Modal.Header>수정 완료</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <p>종합도서관리시스템에 오신 것을 환영합니다.</p>
-            <p>로그인 후 다양한 서비스를 이용해 보세요.</p>
+            <p>다시 로그인 후 이용해 주세요.</p>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => navigate("/login")} positive>
+          <Button onClick={() => window.open("/login", "_self")} positive>
             로그인
           </Button>
-          <Button onClick={() => navigate("/")} secondary>
+          <Button onClick={() => window.open("/", "_self")} secondary>
             메인 화면으로
           </Button>
         </Modal.Actions>
