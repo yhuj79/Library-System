@@ -1,10 +1,15 @@
 import React from "react";
 import MyInfoCard from "../components/MyInfoCard";
 import Title from "../components/Title";
+import { Container } from "semantic-ui-react";
+import { Helmet } from "react-helmet-async";
 
 function Mypage(props) {
   return (
-    <div>
+    <Container style={{ paddingBottom: "50px" }}>
+      <Helmet>
+        <title>내 정보 | 종합도서관리시스템</title>
+      </Helmet>
       <Title
         title={"내 정보"}
         subTitle={
@@ -12,7 +17,7 @@ function Mypage(props) {
         }
       />
       <MyInfoCard />
-    </div>
+    </Container>
   );
 }
 

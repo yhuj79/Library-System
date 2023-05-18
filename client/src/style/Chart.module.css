@@ -1,0 +1,13 @@
+.chartButtonMobile {
+    display: none !important;
+}
+
+@media screen and (max-width: 470px) {
+    .chartButtonPC {
+        display: none !important;
+    }
+
+    .chartButtonMobile {
+        display: block !important;
+    }
+}

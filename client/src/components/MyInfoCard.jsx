@@ -35,7 +35,7 @@ function MyInfoCard() {
   }, []);
 
   return (
-    <Card style={{ margin: 70 }}>
+    <Card>
       {profileImg === "profileDefault" ? (
         <Image src={profileDefault} wrapped ui={false} />
       ) : (

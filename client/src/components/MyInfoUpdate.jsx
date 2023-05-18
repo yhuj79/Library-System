@@ -8,7 +8,17 @@ import styles from "../style/Input.module.css";
 import profileDefault from "../assets/user/profile-default.jpg";
 
 export default function MyInfoUpdate() {
+  const [userID, setUserID] = useState("");
+  const [passwd, setPasswd] = useState("");
+  const [passwdValidation, setPasswdValidation] = useState("");
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userAffiliation, setUserAffiliation] = useState("");
+  const [profileImg, setProfileImg] = useState("profileDefault");
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     try {
       axios({
@@ -44,15 +54,6 @@ export default function MyInfoUpdate() {
     });
   }
 
-  const [userID, setUserID] = useState("");
-  const [passwd, setPasswd] = useState("");
-  const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
-  const [userAffiliation, setUserAffiliation] = useState("");
-  const [profileImg, setProfileImg] = useState("profileDefault");
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState("");
-
   async function Update() {
     setErr("");
     setLoading(true);
@@ -63,6 +64,7 @@ export default function MyInfoUpdate() {
       data: {
         userID: userID,
         passwd: passwd,
+        passwdValidation: passwdValidation,
         email: email,
         userName: userName,
         userAffiliation: userAffiliation,
@@ -77,10 +79,13 @@ export default function MyInfoUpdate() {
       })
       .catch((err) => {
         if (err.response.data === "userID Validate Failed") {
-          setErr("아이디 형식은 6~20자리 영문, 숫자입니다.");
+          setErr("아이디 형식은 4~12자리 영문, 숫자입니다.");
           setLoading(false);
         } else if (err.response.data === "userName Validate Failed") {
           setErr("이름 형식이 올바르지 않습니다.");
+          setLoading(false);
+        } else if (err.response.data === "passwd Discrepancy") {
+          setErr("비밀번호가 일치하지 않습니다. (비밀번호 확인)");
           setLoading(false);
         } else if (err.response.data === "passwd Validate Failed") {
           setErr("비밀번호 형식은 8~20자리 문자,숫자,특수문자입니다.");
@@ -134,13 +139,23 @@ export default function MyInfoUpdate() {
           />
         </div>
         <div className={styles.inputBox}>
-          <p className={styles.label}>비밀번호</p>
+          <p className={styles.label}>새 비밀번호</p>
           <Input
             className={styles.inputText}
             type="password"
             placeholder="PASSWORD"
             onChange={(e) => setPasswd(e.target.value)}
             value={passwd}
+          />
+        </div>
+        <div className={styles.inputBox}>
+          <p className={styles.label}>비밀번호 확인</p>
+          <Input
+            className={styles.inputText}
+            type="password"
+            placeholder="VALIDATION"
+            onChange={(e) => setPasswdValidation(e.target.value)}
+            value={passwdValidation}
           />
         </div>
         <div className={styles.inputBox}>
@@ -217,6 +232,7 @@ export default function MyInfoUpdate() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        closeOnDimmerClick={false}
       >
         <Modal.Header>수정 완료</Modal.Header>
         <Modal.Content>

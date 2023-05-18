@@ -19,6 +19,12 @@ app.use(
 const auth = require("./auth");
 app.use("/auth", auth);
 
+const book = require("./book");
+app.use("/book", book);
+
+const admin = require("./admin");
+app.use("/admin", admin);
+
 app.listen(process.env.PORT, () => {
   console.log(`server is on ${process.env.PORT}`);
 });

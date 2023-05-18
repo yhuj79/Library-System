@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "semantic-ui-css/semantic.min.css";
 import axios from "axios";
 import Header from "./components/Header";
@@ -14,6 +15,11 @@ import Gnb from "./components/Gnb";
 import Register from "./pages/Register";
 import Mypage from "./pages/Mypage";
 import MypageUpdate from "./pages/MypageUpdate";
+import BookList from "./pages/BookList";
+import BookInfo from "./pages/BookInfo";
+import Admin from "./pages/Admin";
+import AdminBookNew from "./pages/AdminBookNew";
+import ApiTest from "./pages/ApiTest";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -42,10 +48,14 @@ function App() {
 
   return (
     <Router>
+      <Helmet>
+        <title>종합도서관리시스템</title>
+      </Helmet>
       <Header isLogin={isLogin} user={user} />
       <Gnb />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/apitest" element={<ApiTest />} />
         <Route
           path="/login"
           element={!isLogin ? <Login /> : <Navigate replace to="/" />}
@@ -62,6 +72,10 @@ function App() {
           path="/mypage/update"
           element={isLogin ? <MypageUpdate /> : <Navigate replace to="/" />}
         />
+        <Route path="/book/list" element={<BookList />} />
+        <Route path="/book/:title" element={<BookInfo />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/book/new" element={<AdminBookNew />} />
       </Routes>
     </Router>
   );

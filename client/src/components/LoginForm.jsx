@@ -5,7 +5,7 @@ import { Button, Input } from "semantic-ui-react";
 import styles from "../style/Input.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function LoginForm() {
   const navigate = useNavigate();
   const [userID, setUserID] = useState("");
   const [passwd, setPasswd] = useState("");

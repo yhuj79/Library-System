@@ -5,21 +5,20 @@ import { storage } from "../hooks/firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { Button, Input, Modal } from "semantic-ui-react";
 import styles from "../style/Input.module.css";
-import { useNavigate } from "react-router-dom";
 import profileDefault from "../assets/user/profile-default.jpg";
 
-export default function Login() {
-  const navigate = useNavigate();
+export default function RegisterForm() {
   const [userID, setUserID] = useState("");
   const [passwd, setPasswd] = useState("");
+  const [passwdValidation, setPasswdValidation] = useState("");
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userAffiliation, setUserAffiliation] = useState("");
   const [profileImg, setProfileImg] = useState("profileDefault");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const [checkedInputs, setCheckedInputs] = useState([]);
   const [open, setOpen] = useState(false);
+  const [checkedInputs, setCheckedInputs] = useState([]);
 
   async function Register() {
     setErr("");
@@ -31,6 +30,7 @@ export default function Login() {
       data: {
         userID: userID,
         passwd: passwd,
+        passwdValidation: passwdValidation,
         email: email,
         userName: userName,
         userAffiliation: userAffiliation,
@@ -49,10 +49,13 @@ export default function Login() {
           setErr("중복된 아이디가 존재합니다.");
           setLoading(false);
         } else if (err.response.data === "userID Validate Failed") {
-          setErr("아이디 형식은 6~20자리 영문, 숫자입니다.");
+          setErr("아이디 형식은 4~12자리 영문, 숫자입니다.");
           setLoading(false);
         } else if (err.response.data === "userName Validate Failed") {
           setErr("이름 형식이 올바르지 않습니다.");
+          setLoading(false);
+        } else if (err.response.data === "passwd Discrepancy") {
+          setErr("비밀번호가 일치하지 않습니다. (비밀번호 확인)");
           setLoading(false);
         } else if (err.response.data === "passwd Validate Failed") {
           setErr("비밀번호 형식은 8~20자리 문자,숫자,특수문자입니다.");
@@ -119,6 +122,16 @@ export default function Login() {
             placeholder="PASSWORD"
             onChange={(e) => setPasswd(e.target.value)}
             value={passwd}
+          />
+        </div>
+        <div className={styles.inputBox}>
+          <p className={styles.label}>비밀번호 확인</p>
+          <Input
+            className={styles.inputText}
+            type="password"
+            placeholder="VALIDATION"
+            onChange={(e) => setPasswdValidation(e.target.value)}
+            value={passwdValidation}
           />
         </div>
         <div className={styles.inputBox}>
@@ -211,7 +224,7 @@ export default function Login() {
               </Button>
             )
           ) : (
-            <Button positive disabled>
+            <Button positive loading>
               회원가입
             </Button>
           )}
@@ -221,6 +234,7 @@ export default function Login() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        closeOnDimmerClick={false}
       >
         <Modal.Header>회원가입 완료 😄</Modal.Header>
         <Modal.Content>
@@ -230,10 +244,10 @@ export default function Login() {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => navigate("/login")} positive>
+          <Button onClick={() => window.open("/login", "_self")} positive>
             로그인
           </Button>
-          <Button onClick={() => navigate("/")} secondary>
+          <Button onClick={() => window.open("/", "_self")} secondary>
             메인 화면으로
           </Button>
         </Modal.Actions>

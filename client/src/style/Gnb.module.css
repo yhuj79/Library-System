@@ -1,12 +1,20 @@
 .gnb {
     display: flex;
-    width: 100vw;
     justify-content: space-between;
     background-color: #21512C;
 }
 
 .link {
     display: flex;
+}
+
+.linkM {
+    display: none;
+}
+
+.linkM i {
+    line-height: 3 !important;
+    margin-right: 10px;
 }
 
 .gnb h1 {
@@ -20,8 +28,29 @@
     margin: 30px;
 }
 
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 1020px) {
     .gnb h2 {
         font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .link {
+        display: none;
+    }
+    
+    .linkM {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .gnb h1 {
+        font-size: 22px;
+    }
+
+    .linkM i {
+        line-height: 2.8 !important;
+        padding-right: 7px;
     }
 }

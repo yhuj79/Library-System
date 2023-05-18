@@ -1,12 +1,16 @@
 import React from "react";
-import RegisterInput from "../components/RegisterInput";
+import RegisterForm from "../components/RegisterForm";
+import { Helmet } from "react-helmet-async";
 
 function Register() {
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <RegisterInput />
+      <Helmet>
+        <title>회원가입 | 종합도서관리시스템</title>
+      </Helmet>
+      <RegisterForm />
     </div>
   );
 }

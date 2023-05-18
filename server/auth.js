@@ -26,7 +26,7 @@ router.post("/login", (req, res) => {
               },
               process.env.ACCESS_SECRET,
               {
-                expiresIn: "60m",
+                expiresIn: "600m",
                 issuer: "About Tech",
               }
             );
@@ -159,10 +159,17 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
-  const { userID, passwd, email, userName, userAffiliation, profileImg } =
-    req.body;
+  const {
+    userID,
+    passwd,
+    passwdValidation,
+    email,
+    userName,
+    userAffiliation,
+    profileImg,
+  } = req.body;
 
-  const regexId = /^[a-z]+[a-z0-9]{5,19}$/g;
+  const regexId = /^[A-za-z0-9]{4,12}$/;
   const regexName = /^[가-힣]{2,15}$/;
   const regexPw =
     /^[A-Za-z0-9`~!@#\$%\^&\*\(\)\{\}\[\]\-_=\+\\|;:'"<>,\./\?]{8,20}$/;
@@ -183,6 +190,8 @@ router.post("/register", (req, res) => {
           res.status(403).json("userName Validate Failed");
         } else if (!regexPw.test(passwd)) {
           res.status(403).json("passwd Validate Failed");
+        } else if (passwd != passwdValidation) {
+          res.status(403).json("passwd Discrepancy");
         } else if (!regexEmail.test(email)) {
           res.status(403).json("email Validate Failed");
         } else if (!regexName.test(userAffiliation)) {
@@ -207,10 +216,17 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/update", (req, res) => {
-  const { userID, passwd, email, userName, userAffiliation, profileImg } =
-    req.body;
+  const {
+    userID,
+    passwd,
+    passwdValidation,
+    email,
+    userName,
+    userAffiliation,
+    profileImg,
+  } = req.body;
 
-  const regexId = /^[a-z]+[a-z0-9]{5,19}$/g;
+  const regexId = /^[A-za-z0-9]{4,12}$/;
   const regexName = /^[가-힣]{2,15}$/;
   const regexPw =
     /^[A-Za-z0-9`~!@#\$%\^&\*\(\)\{\}\[\]\-_=\+\\|;:'"<>,\./\?]{8,20}$/;
@@ -223,6 +239,8 @@ router.post("/update", (req, res) => {
     res.status(403).json("userName Validate Failed");
   } else if (!regexPw.test(passwd)) {
     res.status(403).json("passwd Validate Failed");
+  } else if (passwd != passwdValidation) {
+    res.status(403).json("passwd Discrepancy");
   } else if (!regexEmail.test(email)) {
     res.status(403).json("email Validate Failed");
   } else if (!regexName.test(userAffiliation)) {

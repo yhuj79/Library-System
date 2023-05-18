@@ -15,12 +15,12 @@
 }
 
 .registerInput {
-    height: 1100px;
+    height: 1200px;
     margin: 100px 0;
 }
 
 .updateInput {
-    height: 950px;
+    height: 1030px;
     margin: 100px 0;
 }
 
@@ -60,6 +60,10 @@
 
 .inputText {
     width: 280px !important;
+}
+
+.inputBookImg input {
+    padding: 6.5px !important;
 }
 
 .errDiv {
@@ -107,5 +111,11 @@
 
     100% {
         transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .loginInput, .registerInput, .updateInput {
+        zoom: 0.7;
     }
 }
