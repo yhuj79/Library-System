@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Icon, Table } from "semantic-ui-react";
+import BookUpdateModal from "./BookUpdateModal";
 
 function UserChart({ searchValue }) {
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [updData, setUpdData] = useState({});
 
   useEffect(() => {
     try {
@@ -32,6 +35,21 @@ function UserChart({ searchValue }) {
     }
   }, [dataAll, searchValue]);
 
+  function UpdateBookModalOpen(data) {
+    setUpdData({
+      bookID: data.bookID,
+      title: data.title,
+      author: data.author,
+      publisher: data.publisher,
+      year: data.year,
+      genre: data.genre,
+      address: data.address,
+      bookImg: data.bookImg,
+      page: data.page,
+    });
+    setOpen(true);
+  }
+
   return (
     <Table celled textAlign="center" compact>
       <Table.Header>
@@ -48,7 +66,6 @@ function UserChart({ searchValue }) {
           <Table.HeaderCell>수정</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-
       <Table.Body>
         {JSON.stringify(data) !== "[]" &&
           data.map((data, index) => {
@@ -71,7 +88,12 @@ function UserChart({ searchValue }) {
                 <Table.Cell>{data.page}</Table.Cell>
                 <Table.Cell>{data.address}</Table.Cell>
                 <Table.Cell>
-                  <Button style={{ margin: "3px" }}>수정</Button>
+                  <Button
+                    onClick={() => UpdateBookModalOpen(data)}
+                    style={{ margin: "3px" }}
+                  >
+                    수정
+                  </Button>
                   <Button style={{ margin: "3px" }} primary>
                     대출
                   </Button>
@@ -80,6 +102,7 @@ function UserChart({ searchValue }) {
             );
           })}
       </Table.Body>
+      <BookUpdateModal open={open} setOpen={setOpen} data={updData} />
     </Table>
   );
 }

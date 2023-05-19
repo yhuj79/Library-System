@@ -1,62 +1,44 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button, Form, Modal } from "semantic-ui-react";
 import { storage } from "../hooks/firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
-import {
-  Form,
-  Button,
-  Segment,
-  Modal,
-  Icon,
-  Image,
-  Container,
-} from "semantic-ui-react";
 import styles from "../style/Input.module.css";
-import imgDefault from "../assets/book/imgDefault.png";
-import BookDeatail from "./BookDetail";
 
-function BookForm() {
-  const [bookID, setBookID] = useState([]);
+function BookUpdateModal({ open, setOpen, data }) {
+  useEffect(() => {
+    setBookID(data.bookID);
+    setTitle(data.title);
+    setAuthor(data.author);
+    setPublisher(data.publisher);
+    setYear(data.year);
+    setGenre(data.genre);
+    setAddress(data.address);
+    setBookImg(data.bookImg);
+    setPage(data.page);
+  }, [data]);
+
+  const [bookID, setBookID] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publisher, setPublisher] = useState("");
   const [year, setYear] = useState("");
   const [genre, setGenre] = useState("");
   const [address, setAddress] = useState("");
-  const [bookImg, setBookImg] = useState("imgDefault");
+  const [bookImg, setBookImg] = useState("");
   const [page, setPage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("");
   const [err, setErr] = useState("");
-  const [open, setOpen] = useState(false);
-  const [preview, setPreview] = useState({});
-  const [previewOpen, setPreviewOpen] = useState(false);
 
-  useEffect(() => {
-    try {
-      axios({
-        url: "http://localhost:8000/admin/book/maxUserID",
-        method: "GET",
-        withCredentials: true,
-      })
-        .then((res) => {
-          setBookID(res.data[0].bookID + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  async function SaveBook() {
+  async function UpdateBook() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/admin/book/new",
+      url: "http://localhost:8000/admin/book/update",
       method: "POST",
       withCredentials: true,
       data: {
+        bookID: bookID,
         title: title,
         author: author,
         publisher: publisher,
@@ -70,29 +52,7 @@ function BookForm() {
       .then((result) => {
         if (result.status === 200) {
           console.log("Save Book Complete!");
-          try {
-            axios({
-              url: `http://localhost:8000/admin/bookstat/validate`,
-              params: { title: title },
-              method: "GET",
-              withCredentials: true,
-            })
-              .then((res) => {
-                if (res.data.length > 0) {
-                  setOpen(true);
-                  setLoading(false);
-                } else {
-                  SaveBookStat();
-                  setOpen(true);
-                  setLoading(false);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } catch (err) {
-            console.log(err);
-          }
+          window.location.reload();
         }
       })
       .catch((err) => {
@@ -103,25 +63,6 @@ function BookForm() {
           setErr("등록 실패. 잠시 후 다시 시도해 주세요.");
           setLoading(false);
         }
-      });
-  }
-
-  async function SaveBookStat() {
-    await axios({
-      url: "http://localhost:8000/admin/bookstat/new",
-      method: "POST",
-      withCredentials: true,
-      data: {
-        title: title,
-      },
-    })
-      .then((result) => {
-        if (result.status === 200) {
-          console.log("Save BookStat Complete!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -141,19 +82,6 @@ function BookForm() {
       console.log(error);
       setLoading(false);
     }
-  }
-
-  function PreviewHandler() {
-    setPreview({
-      title: title,
-      author: author,
-      publisher: publisher,
-      year: year,
-      genre: genre,
-      address: address,
-      page: page,
-    });
-    setPreviewOpen(true);
   }
 
   const yearOptions = [];
@@ -189,11 +117,45 @@ function BookForm() {
     { key: "스포츠", value: "스포츠", text: "스포츠" },
   ];
 
+  async function DeleteBook(id) {
+    setErr("");
+    setLoading(true);
+    await axios({
+      url: "http://localhost:8000/admin/book/delete",
+      method: "POST",
+      withCredentials: true,
+      data: {
+        bookID: id,
+      },
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          console.log("Delete Book Complete!");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }
+
+  function DeleteBookHandler() {
+    if (window.confirm(`(${bookID}) ${title}\n정말 삭제하시겠습니까?`)) {
+      DeleteBook(bookID);
+    }
+  }
+
   return (
-    <Container>
-      <Segment>
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+    >
+      <Modal.Header>도서 정보 수정</Modal.Header>
+      <Modal.Content>
         <Form>
-        <Form.Group widths={2}>
+          <Form.Group widths={2}>
             <Form.Input
               label="식별번호 (수정 불가)"
               placeholder="BOOK ID"
@@ -204,21 +166,22 @@ function BookForm() {
               label="도서 위치"
               placeholder="ADDRESS"
               onChange={(e) => setAddress(e.target.value)}
-              value={address}
+              value={address || ""}
             />
           </Form.Group>
           <Form.Group widths={2}>
             <Form.Input
-              label="도서명 (등록 후 수정 불가)"
+              label="도서명 (수정 불가)"
               placeholder="TITLE"
               onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              value={title || ""}
+              readOnly
             />
             <Form.Input
               label="저자"
               placeholder="AUTHOR"
               onChange={(e) => setAuthor(e.target.value)}
-              value={author}
+              value={author || ""}
             />
           </Form.Group>
           <Form.Group widths={2}>
@@ -226,13 +189,13 @@ function BookForm() {
               label="출판사"
               placeholder="PUBLISHER"
               onChange={(e) => setPublisher(e.target.value)}
-              value={publisher}
+              value={publisher || ""}
             />
             <Form.Input
               label="페이지 수"
               placeholder="PAGE"
               onChange={(e) => setPage(e.target.value)}
-              value={page}
+              value={page || ""}
             />
           </Form.Group>
           <Form.Group widths={2}>
@@ -240,14 +203,14 @@ function BookForm() {
               label="출판 연도"
               placeholder="YEAR"
               onChange={(e, result) => setYear(result.value)}
-              value={year}
+              value={year || ""}
               options={yearOptions}
             />
             <Form.Select
               label="장르"
               placeholder="GENRE"
               onChange={(e, result) => setGenre(result.value)}
-              value={genre}
+              value={genre || ""}
               options={genreOptions}
             />
           </Form.Group>
@@ -271,101 +234,31 @@ function BookForm() {
           <div className={styles.errDiv}>
             {err && <p className={styles.errText}>{err}</p>}
           </div>
-          <br />
-          <br />
-          {!loading ? (
-            <Button
-              style={{ marginTop: "-40px" }}
-              floated="right"
-              size="large"
-              onClick={SaveBook}
-              positive
-            >
-              저장
-            </Button>
-          ) : (
-            <Button
-              style={{ marginTop: "-40px" }}
-              floated="right"
-              size="large"
-              positive
-              loading
-            >
-              저장
-            </Button>
-          )}
-          {!loading ? (
-            <Button
-              style={{ marginTop: "-40px" }}
-              floated="right"
-              size="large"
-              onClick={PreviewHandler}
-              primary
-            >
-              미리보기
-            </Button>
-          ) : (
-            <Button
-              style={{ marginTop: "-40px" }}
-              floated="right"
-              size="large"
-              onClick={PreviewHandler}
-              primary
-              loading
-            >
-              미리보기
-            </Button>
-          )}
         </Form>
-        <Modal
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          open={open}
-          closeOnDimmerClick={false}
-        >
-          <Modal.Header>도서 추가 완료</Modal.Header>
-          <Modal.Content>
-            <Modal.Description>
-              <p>성공적으로 등록되었습니다.</p>
-            </Modal.Description>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button onClick={() => window.open("/admin", "_self")} positive>
-              관리자 페이지
-              <Icon name="right chevron" />
-            </Button>
-          </Modal.Actions>
-        </Modal>
-        <Modal
-          onClose={() => setPreviewOpen(false)}
-          onOpen={() => setPreviewOpen(true)}
-          open={previewOpen}
-        >
-          <Modal.Header>미리보기</Modal.Header>
-          <Modal.Content>
-            {bookImg === "imgDefault" ? (
-              <Image
-                style={{ width: "132px", height: "200px" }}
-                src={imgDefault}
-              />
-            ) : (
-              <Image
-                style={{ width: "132px", height: "200px" }}
-                src={bookImg}
-              />
-            )}
-            <BookDeatail data={preview} />
-          </Modal.Content>
-          <Modal.Content>도서위치 : {address}</Modal.Content>
-          <Modal.Actions>
-            <Button onClick={() => setPreviewOpen(false)}>
-              닫기
-            </Button>
-          </Modal.Actions>
-        </Modal>
-      </Segment>
-    </Container>
+      </Modal.Content>
+      {!loading ? (
+        <Modal.Actions>
+          <Button onClick={DeleteBookHandler} negative floated="left">
+            삭제
+          </Button>
+          <Button onClick={() => setOpen(false)}>닫기</Button>
+          <Button onClick={UpdateBook} positive>
+            저장
+          </Button>
+        </Modal.Actions>
+      ) : (
+        <Modal.Actions>
+          <Button negative floated="left" loading>
+            삭제
+          </Button>
+          <Button loading>닫기</Button>
+          <Button positive loading>
+            저장
+          </Button>
+        </Modal.Actions>
+      )}
+    </Modal>
   );
 }
 
-export default BookForm;
+export default BookUpdateModal;
