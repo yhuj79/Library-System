@@ -27,24 +27,17 @@ router.get("/user/all", (req, res) => {
   });
 });
 
-router.get("/book/maxUserID", (req, res) => {
-  db.query(`SELECT MAX(bookID) bookID FROM sys.BOOK`, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200).json(data);
-    }
-  });
-});
-
 router.get("/book/all", (req, res) => {
-  db.query(`SELECT * FROM sys.BOOK ORDER BY title`, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200).json(data);
+  db.query(
+    `SELECT B.bookID, B.title, B.bookImg, B.author, B.publisher, B.year, B.genre, B.address, B.page, L.userID, L.lentAt, L.returnedAt FROM sys.BOOK as B LEFT OUTER JOIN sys.LENT as L ON B.bookID=L.bookID ORDER BY title`,
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json(data);
+      }
     }
-  });
+  );
 });
 
 router.post("/book/new", (req, res) => {
@@ -155,6 +148,35 @@ router.post("/bookstat/new", (req, res) => {
   const { title } = req.body;
   const sql = "INSERT INTO sys.BOOKSTAT VALUES (?, '0')";
   const params = [title];
+  db.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+router.post("/bookstat/update", (req, res) => {
+  const { title } = req.body;
+  const sql = "UPDATE sys.BOOKSTAT SET lentStat = lentStat + 1 WHERE title = ?";
+  const params = [title];
+  db.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+router.post("/book/lent", (req, res) => {
+  const { userID, bookID } = req.body;
+  const sql =
+    "INSERT INTO sys.LENT VALUES (?, ?, now(), DATE_ADD(NOW(), INTERVAL 15 DAY))";
+  const params = [userID, bookID];
+  db.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+router.post("/book/returned", (req, res) => {
+  const { bookID, userID } = req.body;
+  const sql =
+    "DELETE FROM sys.LENT WHERE userID=? AND bookID=?";
+  const params = [userID, bookID];
   db.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });

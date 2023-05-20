@@ -17,9 +17,10 @@ import Mypage from "./pages/Mypage";
 import MypageUpdate from "./pages/MypageUpdate";
 import BookList from "./pages/BookList";
 import BookInfo from "./pages/BookInfo";
-import Admin from "./pages/Admin";
 import AdminBookNew from "./pages/AdminBookNew";
 import ApiTest from "./pages/ApiTest";
+import AdminUser from "./pages/AdminUser";
+import AdminBook from "./pages/AdminBook";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -74,7 +75,8 @@ function App() {
         />
         <Route path="/book/list" element={<BookList />} />
         <Route path="/book/:title" element={<BookInfo />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/user" element={<AdminUser />} />
+        <Route path="/admin/book" element={<AdminBook />} />
         <Route path="/admin/book/new" element={<AdminBookNew />} />
       </Routes>
     </Router>

@@ -27,7 +27,7 @@ function Header({ isLogin, user }) {
               <strong>{user.userName}</strong>님 반갑습니다.
             </li>
             {user.admin.data[0] === 1 && (
-              <li onClick={() => navigate("/admin")}>관리자</li>
+              <li onClick={() => navigate("/admin/user")}>관리자</li>
             )}
             <li onClick={() => navigate("/mypage")}>내 정보</li>
             <li onClick={Logout}>로그아웃</li>

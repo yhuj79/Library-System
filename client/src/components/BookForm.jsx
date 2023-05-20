@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { storage } from "../hooks/firebase";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
@@ -16,7 +16,6 @@ import imgDefault from "../assets/book/imgDefault.png";
 import BookDeatail from "./BookDetail";
 
 function BookForm() {
-  const [bookID, setBookID] = useState([]);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publisher, setPublisher] = useState("");
@@ -30,24 +29,6 @@ function BookForm() {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState({});
   const [previewOpen, setPreviewOpen] = useState(false);
-
-  useEffect(() => {
-    try {
-      axios({
-        url: "http://localhost:8000/admin/book/maxUserID",
-        method: "GET",
-        withCredentials: true,
-      })
-        .then((res) => {
-          setBookID(res.data[0].bookID + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
 
   async function SaveBook() {
     setErr("");
@@ -195,9 +176,9 @@ function BookForm() {
         <Form>
         <Form.Group widths={2}>
             <Form.Input
-              label="식별번호 (수정 불가)"
+              label="식별번호"
               placeholder="BOOK ID"
-              value={bookID || ""}
+              value={"BOOK ID"}
               readOnly
             />
             <Form.Input
@@ -330,7 +311,7 @@ function BookForm() {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button onClick={() => window.open("/admin", "_self")} positive>
+            <Button onClick={() => window.open("/admin/book", "_self")} positive>
               관리자 페이지
               <Icon name="right chevron" />
             </Button>

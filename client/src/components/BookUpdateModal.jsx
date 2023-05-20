@@ -27,7 +27,7 @@ function BookUpdateModal({ open, setOpen, data }) {
   const [address, setAddress] = useState("");
   const [bookImg, setBookImg] = useState("");
   const [page, setPage] = useState("");
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
   async function UpdateBook() {

@@ -6,14 +6,12 @@ function BookDeatail({ data }) {
   return (
     <Item>
       {data.bookImg === "imgDefault" ? (
-        <Item.Image src={imgDefault} />
+        <img alt="" style={{ width: "200px" }} src={imgDefault} />
       ) : (
-        <Item.Image src={data.bookImg} />
+        <img alt="" style={{ width: "200px" }} src={data.bookImg} />
       )}
-      <Item.Content>
-        <Item.Header style={{ marginBottom: "7px" }} as="h1">
-          {data.title}
-        </Item.Header>
+      <Item.Content style={{ margin: "0 10px" }}>
+        <Item.Header as="h1">{data.title}</Item.Header>
         <Item.Description>저자 : {data.author}</Item.Description>
         <Item.Description>
           발행사항 : {data.publisher} / {data.year}

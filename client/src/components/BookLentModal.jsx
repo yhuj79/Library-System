@@ -1,0 +1,111 @@
+import React, { useState } from "react";
+import { Button, Input, Modal, Header } from "semantic-ui-react";
+import BookDeatail from "./BookDetail";
+import axios from "axios";
+import styles from "../style/Input.module.css";
+import UserChart from "./UserChart";
+
+function BookLentModal({ open, setOpen, data }) {
+  const [searchValue, setSearchValue] = useState("");
+  const [userID, setUserID] = useState("");
+  const [loading, setLoading] = useState("");
+  const [err, setErr] = useState("");
+
+  async function LentBook() {
+    setErr("");
+    setLoading(true);
+    await axios({
+      url: "http://localhost:8000/admin/book/lent",
+      method: "POST",
+      withCredentials: true,
+      data: {
+        userID: userID,
+        bookID: data.bookID,
+      },
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          console.log("Save Book Complete!");
+          UpdateBookStat(data.title);
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        setErr("대출 실패. 잠시 후 다시 시도해 주세요.");
+        setLoading(false);
+      });
+  }
+
+  async function UpdateBookStat(title) {
+    await axios({
+      url: "http://localhost:8000/admin/bookstat/update",
+      method: "POST",
+      withCredentials: true,
+      data: {
+        title: title,
+      },
+    })
+      .then((result) => {
+        if (result.status === 200) {
+          console.log("Update BookStat Complete!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  return (
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+    >
+      <Modal.Header>대출 승인</Modal.Header>
+      <Modal.Content>
+        <Input
+          icon="search"
+          type="text"
+          onChange={(e) => setSearchValue(e.target.value)}
+          value={searchValue}
+          placeholder="대출자 이름을 입력하세요"
+        />
+        <UserChart
+          searchValue={searchValue}
+          select={true}
+          userID={userID}
+          setUserID={setUserID}
+        />
+        <BookDeatail data={data} />
+        <Header>도서 식별번호 : {data.bookID}</Header>
+        {userID && <Header>{userID} 님께 대출 실행하시겠습니까?</Header>}
+        <div className={styles.errDiv}>
+          {err && <p className={styles.errText}>{err}</p>}
+        </div>
+      </Modal.Content>
+      {!loading ? (
+        <Modal.Actions>
+          <Button onClick={() => setOpen(false)}>닫기</Button>
+          {userID ? (
+            <Button onClick={LentBook} positive>
+              확인
+            </Button>
+          ) : (
+            <Button disabled positive>
+              확인
+            </Button>
+          )}
+        </Modal.Actions>
+      ) : (
+        <Modal.Actions>
+          <Button loading>닫기</Button>
+          <Button positive loading>
+            확인
+          </Button>
+        </Modal.Actions>
+      )}
+    </Modal>
+  );
+}
+
+export default BookLentModal;
