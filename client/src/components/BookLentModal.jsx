@@ -11,9 +11,36 @@ function BookLentModal({ open, setOpen, data }) {
   const [loading, setLoading] = useState("");
   const [err, setErr] = useState("");
 
-  async function LentBook() {
+  function LentBookHandler() {
     setErr("");
     setLoading(true);
+    try {
+      axios({
+        url: `http://localhost:8000/admin/book/lent/validate`,
+        params: { bookID: data.bookID },
+        method: "GET",
+        withCredentials: true,
+      })
+        .then((res) => {
+          if (res.data.length > 0) {
+            setErr("이미 대출 처리된 도서입니다.");
+            setLoading(false);
+          } else {
+            console.log("Validate Book Complete!");
+            LentBook();
+            setOpen(true);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function LentBook() {
     await axios({
       url: "http://localhost:8000/admin/book/lent",
       method: "POST",
@@ -87,7 +114,7 @@ function BookLentModal({ open, setOpen, data }) {
         <Modal.Actions>
           <Button onClick={() => setOpen(false)}>닫기</Button>
           {userID ? (
-            <Button onClick={LentBook} positive>
+            <Button onClick={LentBookHandler} positive>
               확인
             </Button>
           ) : (

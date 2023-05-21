@@ -1,0 +1,10 @@
+.list {
+    cursor: pointer !important;
+    opacity: 0.95 !important;
+}
+
+.list:hover {
+    opacity: 1 !important;
+    color: #008100 !important;
+    background-color: #F8F8F8 !important;
+}

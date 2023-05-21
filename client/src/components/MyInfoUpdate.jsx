@@ -58,7 +58,7 @@ export default function MyInfoUpdate() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/auth/update",
+      url: "http://localhost:8000/auth/mypage/update",
       method: "POST",
       withCredentials: true,
       data: {
@@ -139,7 +139,7 @@ export default function MyInfoUpdate() {
           />
         </div>
         <div className={styles.inputBox}>
-          <p className={styles.label}>새 비밀번호</p>
+          <p className={styles.label}>비밀번호</p>
           <Input
             className={styles.inputText}
             type="password"

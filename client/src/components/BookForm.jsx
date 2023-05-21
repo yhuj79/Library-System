@@ -34,7 +34,7 @@ function BookForm() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/admin/book/new",
+      url: "http://localhost:8000/admin/book/insert",
       method: "POST",
       withCredentials: true,
       data: {
@@ -89,7 +89,7 @@ function BookForm() {
 
   async function SaveBookStat() {
     await axios({
-      url: "http://localhost:8000/admin/bookstat/new",
+      url: "http://localhost:8000/admin/bookstat/insert",
       method: "POST",
       withCredentials: true,
       data: {

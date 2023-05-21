@@ -13,7 +13,7 @@ router.get("/access", (req, res) => {
       res.status(403).json("Not Accessed");
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(444).json(error);
   }
 });
 
@@ -29,7 +29,11 @@ router.get("/user/all", (req, res) => {
 
 router.get("/book/all", (req, res) => {
   db.query(
-    `SELECT B.bookID, B.title, B.bookImg, B.author, B.publisher, B.year, B.genre, B.address, B.page, L.userID, L.lentAt, L.returnedAt FROM sys.BOOK as B LEFT OUTER JOIN sys.LENT as L ON B.bookID=L.bookID ORDER BY title`,
+    `SELECT B.bookID, B.title, B.bookImg, B.author, B.publisher, B.year, B.genre, B.address, B.page, L.userID, L.lentAt, L.returnedAt
+    FROM sys.BOOK as B
+    LEFT OUTER JOIN sys.LENT as L
+    ON B.bookID=L.bookID
+    ORDER BY title`,
     (err, data) => {
       if (err) {
         console.log(err);
@@ -40,7 +44,7 @@ router.get("/book/all", (req, res) => {
   );
 });
 
-router.post("/book/new", (req, res) => {
+router.post("/book/insert", (req, res) => {
   const { title, bookImg, author, publisher, year, genre, address, page } =
     req.body;
 
@@ -144,7 +148,7 @@ router.get("/bookstat/validate", (req, res) => {
   });
 });
 
-router.post("/bookstat/new", (req, res) => {
+router.post("/bookstat/insert", (req, res) => {
   const { title } = req.body;
   const sql = "INSERT INTO sys.BOOKSTAT VALUES (?, '0')";
   const params = [title];
@@ -162,6 +166,17 @@ router.post("/bookstat/update", (req, res) => {
   });
 });
 
+router.get("/book/lent/validate", (req, res) => {
+  const { bookID } = req.query;
+  db.query(`SELECT * fROM sys.LENT WHERE bookID="${bookID}"`, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+});
+
 router.post("/book/lent", (req, res) => {
   const { userID, bookID } = req.body;
   const sql =
@@ -174,8 +189,7 @@ router.post("/book/lent", (req, res) => {
 
 router.post("/book/returned", (req, res) => {
   const { bookID, userID } = req.body;
-  const sql =
-    "DELETE FROM sys.LENT WHERE userID=? AND bookID=?";
+  const sql = "DELETE FROM sys.LENT WHERE userID=? AND bookID=?";
   const params = [userID, bookID];
   db.query(sql, params, (err, rows, fields) => {
     res.send(rows);

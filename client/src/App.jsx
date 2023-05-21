@@ -15,12 +15,14 @@ import Gnb from "./components/Gnb";
 import Register from "./pages/Register";
 import Mypage from "./pages/Mypage";
 import MypageUpdate from "./pages/MypageUpdate";
-import BookList from "./pages/BookList";
+import BookListNew from "./pages/BookListNew";
+import BookListPopular from "./pages/BookListPopular";
 import BookInfo from "./pages/BookInfo";
 import AdminBookNew from "./pages/AdminBookNew";
 import ApiTest from "./pages/ApiTest";
 import AdminUser from "./pages/AdminUser";
 import AdminBook from "./pages/AdminBook";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -73,11 +75,14 @@ function App() {
           path="/mypage/update"
           element={isLogin ? <MypageUpdate /> : <Navigate replace to="/" />}
         />
-        <Route path="/book/list" element={<BookList />} />
+        <Route path="/book/list/new" element={<BookListNew />} />
+        <Route path="/book/list/popular" element={<BookListPopular />} />
         <Route path="/book/:title" element={<BookInfo />} />
         <Route path="/admin/user" element={<AdminUser />} />
         <Route path="/admin/book" element={<AdminBook />} />
         <Route path="/admin/book/new" element={<AdminBookNew />} />
+
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </Router>
   );

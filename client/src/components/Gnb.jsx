@@ -11,7 +11,7 @@ function Gnb() {
       </Link>
       <div className={styles.link}>
         <h2>자료검색</h2>
-        <Link to={"/book/list"}>
+        <Link to={"/book/list/new"}>
           <h2>도서목록</h2>
         </Link>
         <h2>내서재</h2>

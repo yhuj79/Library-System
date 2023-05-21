@@ -2,12 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, Item } from "semantic-ui-react";
 import imgDefault from "../assets/book/imgDefault.png";
+import styles from "../style/BookList.module.css";
 
 function BookCard({ data }) {
   const navigate = useNavigate();
 
   return (
-    <Item onClick={() => navigate(`/book/${data.title}`)}>
+    <Item
+      style={{padding: '15px'}}
+      className={styles.list}
+      onClick={() => navigate(`/book/${data.title}`)}
+    >
       {data.bookImg === "imgDefault" ? (
         <Item.Image src={imgDefault} />
       ) : (
@@ -17,9 +22,7 @@ function BookCard({ data }) {
         <Item.Header style={{ marginBottom: "7px" }} as="h1">
           {data.title}
         </Item.Header>
-        <Item.Meta>
-          <span>{data.author}</span>
-        </Item.Meta>
+        <Item.Meta>{data.author}</Item.Meta>
         <Item.Description>
           {data.publisher} / {data.year}
         </Item.Description>

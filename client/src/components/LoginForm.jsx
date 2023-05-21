@@ -34,6 +34,13 @@ export default function LoginForm() {
       });
   }
 
+  // Enter 입력이 되면 클릭 이벤트 실행하는 함수
+  const handleOnKeyPress = (e) => {
+    if (e.key === "Enter") {
+      Login();
+    }
+  };
+
   return (
     <div className={styles.loginInput}>
       <div className={styles.wrap}>
@@ -45,6 +52,7 @@ export default function LoginForm() {
             placeholder="ID"
             onChange={(e) => setUserID(e.target.value)}
             value={userID}
+            onKeyPress={handleOnKeyPress}
           />
         </div>
         <div className={styles.inputBox}>
@@ -55,6 +63,7 @@ export default function LoginForm() {
             placeholder="PASSWORD"
             onChange={(e) => setPasswd(e.target.value)}
             value={passwd}
+            onKeyPress={handleOnKeyPress}
           />
         </div>
         <div className={styles.errDiv}>

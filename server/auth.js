@@ -215,7 +215,7 @@ router.post("/register", (req, res) => {
   );
 });
 
-router.post("/update", (req, res) => {
+router.post("/mypage/update", (req, res) => {
   const {
     userID,
     passwd,
@@ -262,6 +262,24 @@ router.post("/update", (req, res) => {
       res.send(rows);
     });
   }
+});
+
+router.get("/mypage/list/lent", (req, res) => {
+  const { userID } = req.query;
+  db.query(
+    `SELECT B.bookID, B.title, B.bookImg, B.author, B.publisher, B.year, B.genre, B.address, B.page, L.userID, L.lentAt, L.returnedAt
+    FROM sys.BOOK as B
+    LEFT OUTER JOIN sys.LENT as L
+    ON B.bookID=L.bookID
+    WHERE L.userID="${userID}"`,
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json(data);
+      }
+    }
+  );
 });
 
 module.exports = router;

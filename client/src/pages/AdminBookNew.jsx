@@ -22,10 +22,11 @@ function AdminBookNew() {
           }
         })
         .catch((err) => {
-          console.err(err);
+          console.log(err);
+          window.location.replace("/");
         });
     } catch (err) {
-      console.err(err);
+      console.log(err);
     }
   }, []);
 
