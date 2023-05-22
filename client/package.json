@@ -44,7 +44,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://libsystemh7a9.herokuapp.com",
   "devDependencies": {
     "slick-carousel": "^1.8.1"
   }

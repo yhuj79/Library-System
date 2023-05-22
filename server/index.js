@@ -11,7 +11,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: true, // 출처 허용
-    credential: true, // 사용자 인증이 필요한 리소스 접근
+    credentials: true, // 사용자 인증이 필요한 리소스 접근
   })
 );
 
