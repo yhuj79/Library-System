@@ -10,9 +10,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: true, // 출처 허용
+    credential: true, // 사용자 인증이 필요한 리소스 접근
   })
 );
 
