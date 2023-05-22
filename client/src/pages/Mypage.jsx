@@ -67,7 +67,7 @@ function Mypage() {
       />
       <div className={styles.wrap}>
         <MyInfoCard data={authData} />
-        <MyInfoChart data={lentListData} />
+        {lentListData.length > 0 && <MyInfoChart data={lentListData} />}
       </div>
     </Container>
   );
