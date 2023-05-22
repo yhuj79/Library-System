@@ -14,7 +14,7 @@ function BookInfo() {
   useEffect(() => {
     try {
       axios({
-        url: `http://localhost:8000/book/title`,
+        url: `${process.env.REACT_APP_HOST}/book/title`,
         params: { title: title },
         method: "GET",
         withCredentials: true,

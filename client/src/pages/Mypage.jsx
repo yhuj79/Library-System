@@ -19,7 +19,7 @@ function Mypage() {
   function AuthHandler() {
     try {
       axios({
-        url: "http://localhost:8000/auth/login/success",
+        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
         method: "GET",
         withCredentials: true,
       })
@@ -38,7 +38,7 @@ function Mypage() {
   function LentListHandler(userID) {
     try {
       axios({
-        url: "http://localhost:8000/auth/mypage/list/lent",
+        url: `${process.env.REACT_APP_HOST}/auth/mypage/list/lent`,
         params: { userID: userID },
         method: "GET",
         withCredentials: true,

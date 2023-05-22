@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/auth/login/success",
+        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
         method: "GET",
         withCredentials: true,
       })

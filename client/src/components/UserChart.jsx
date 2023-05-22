@@ -9,7 +9,7 @@ function UserChart({ searchValue, select, userID, setUserID }) {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/admin/user/all",
+        url: `${process.env.REACT_APP_HOST}/admin/user/all`,
         method: "GET",
         withCredentials: true,
       })

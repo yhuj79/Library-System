@@ -22,7 +22,7 @@ export default function MyInfoUpdate() {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/auth/login/success",
+        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
         method: "GET",
         withCredentials: true,
       })
@@ -43,7 +43,7 @@ export default function MyInfoUpdate() {
 
   function Logout() {
     axios({
-      url: "http://localhost:8000/auth/logout",
+      url: `${process.env.REACT_APP_HOST}/auth/logout`,
       method: "POST",
       withCredentials: true,
     }).then((res) => {
@@ -58,7 +58,7 @@ export default function MyInfoUpdate() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/auth/mypage/update",
+      url: `${process.env.REACT_APP_HOST}/auth/mypage/update`,
       method: "POST",
       withCredentials: true,
       data: {

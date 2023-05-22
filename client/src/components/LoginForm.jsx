@@ -14,7 +14,7 @@ export default function LoginForm() {
   function Login() {
     setErr("");
     axios({
-      url: "http://localhost:8000/auth/login",
+      url: `${process.env.REACT_APP_HOST}/auth/login`,
       method: "POST",
       withCredentials: true,
       data: {

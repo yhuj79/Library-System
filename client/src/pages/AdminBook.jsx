@@ -15,7 +15,7 @@ function AdminUser() {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/admin/access",
+        url: `${process.env.REACT_APP_HOST}/admin/access`,
         method: "GET",
         withCredentials: true,
       })

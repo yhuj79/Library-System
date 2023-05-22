@@ -24,7 +24,7 @@ export default function RegisterForm() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/auth/register",
+      url: `${process.env.REACT_APP_HOST}/auth/register`,
       method: "POST",
       withCredentials: true,
       data: {

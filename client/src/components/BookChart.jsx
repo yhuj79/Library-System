@@ -17,7 +17,7 @@ function BookChart({ searchValue }) {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/admin/book/all",
+        url: `${process.env.REACT_APP_HOST}/admin/book/all`,
         method: "GET",
         withCredentials: true,
       })
@@ -93,7 +93,7 @@ function BookChart({ searchValue }) {
 
   async function ReturnedBook(bookID, userID) {
     await axios({
-      url: "http://localhost:8000/admin/book/returned",
+      url: `${process.env.REACT_APP_HOST}/admin/book/returned`,
       method: "POST",
       withCredentials: true,
       data: {

@@ -34,7 +34,7 @@ function BookForm() {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/admin/book/insert",
+      url: `${process.env.REACT_APP_HOST}/admin/book/insert`,
       method: "POST",
       withCredentials: true,
       data: {
@@ -53,7 +53,7 @@ function BookForm() {
           console.log("Save Book Complete!");
           try {
             axios({
-              url: `http://localhost:8000/admin/bookstat/validate`,
+              url: `${process.env.REACT_APP_HOST}/admin/bookstat/validate`,
               params: { title: title },
               method: "GET",
               withCredentials: true,
@@ -89,7 +89,7 @@ function BookForm() {
 
   async function SaveBookStat() {
     await axios({
-      url: "http://localhost:8000/admin/bookstat/insert",
+      url: `${process.env.REACT_APP_HOST}/admin/bookstat/insert`,
       method: "POST",
       withCredentials: true,
       data: {

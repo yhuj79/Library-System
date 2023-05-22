@@ -15,7 +15,7 @@ function BookList() {
   useEffect(() => {
     try {
       axios({
-        url: "http://localhost:8000/book/list/new",
+        url: `${process.env.REACT_APP_HOST}/book/list/new`,
         method: "GET",
         withCredentials: true,
       })

@@ -16,7 +16,7 @@ function BookLentModal({ open, setOpen, data }) {
     setLoading(true);
     try {
       axios({
-        url: `http://localhost:8000/admin/book/lent/validate`,
+        url: `${process.env.REACT_APP_HOST}/admin/book/lent/validate`,
         params: { bookID: data.bookID },
         method: "GET",
         withCredentials: true,
@@ -42,7 +42,7 @@ function BookLentModal({ open, setOpen, data }) {
 
   async function LentBook() {
     await axios({
-      url: "http://localhost:8000/admin/book/lent",
+      url: `${process.env.REACT_APP_HOST}/admin/book/lent`,
       method: "POST",
       withCredentials: true,
       data: {
@@ -65,7 +65,7 @@ function BookLentModal({ open, setOpen, data }) {
 
   async function UpdateBookStat(title) {
     await axios({
-      url: "http://localhost:8000/admin/bookstat/update",
+      url: `${process.env.REACT_APP_HOST}/admin/bookstat/update`,
       method: "POST",
       withCredentials: true,
       data: {

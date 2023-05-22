@@ -5,7 +5,7 @@ function ApiTest() {
   useEffect(() => {
     try {
       axios({
-        url: `http://localhost:8000/admin/bookstat/validate`,
+        url: `${process.env.REACT_APP_HOST}/admin/bookstat/validate`,
         params: { title: "나의 문화유산 답사기 365일" },
         method: "GET",
         withCredentials: true,

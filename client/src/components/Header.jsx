@@ -8,7 +8,7 @@ function Header({ isLogin, user }) {
 
   function Logout() {
     axios({
-      url: "http://localhost:8000/auth/logout",
+      url: `${process.env.REACT_APP_HOST}/auth/logout`,
       method: "POST",
       withCredentials: true,
     }).then((res) => {

@@ -34,7 +34,7 @@ function BookUpdateModal({ open, setOpen, data }) {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/admin/book/update",
+      url: `${process.env.REACT_APP_HOST}/admin/book/update`,
       method: "POST",
       withCredentials: true,
       data: {
@@ -121,7 +121,7 @@ function BookUpdateModal({ open, setOpen, data }) {
     setErr("");
     setLoading(true);
     await axios({
-      url: "http://localhost:8000/admin/book/delete",
+      url: `${process.env.REACT_APP_HOST}/admin/book/delete`,
       method: "POST",
       withCredentials: true,
       data: {
