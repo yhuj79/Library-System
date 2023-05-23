@@ -31,7 +31,6 @@ function BookLentModal({ open, setOpen, data }) {
             UpdateBookStat();
             setOpen(true);
             setLoading(false);
-            window.location.reload();
           }
         })
         .catch((err) => {
@@ -75,6 +74,7 @@ function BookLentModal({ open, setOpen, data }) {
       .then((result) => {
         if (result.status === 200) {
           console.log("Update BookStat Complete!");
+          window.location.reload();
         }
       })
       .catch((err) => {
