@@ -125,7 +125,7 @@ function BookLentModal({ open, setOpen, data }) {
         </Modal.Actions>
       ) : (
         <Modal.Actions>
-          <Button loading>닫기</Button>
+          <Button disabled>닫기</Button>
           <Button positive loading>
             확인
           </Button>

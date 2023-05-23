@@ -248,10 +248,10 @@ function BookUpdateModal({ open, setOpen, data }) {
         </Modal.Actions>
       ) : (
         <Modal.Actions>
-          <Button negative floated="left" loading>
+          <Button negative floated="left" disabled>
             삭제
           </Button>
-          <Button loading>닫기</Button>
+          <Button disabled>닫기</Button>
           <Button positive loading>
             저장
           </Button>

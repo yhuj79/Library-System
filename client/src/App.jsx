@@ -27,14 +27,12 @@ import { useCookies } from "react-cookie";
 import jwtDecode from "jwt-decode";
 
 function App() {
-  const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(["userID"]);
 
   useEffect(() => {
-    setLoading(true);
     try {
       axios({
         url: `${process.env.REACT_APP_HOST}/auth/authentication`,
@@ -54,7 +52,6 @@ function App() {
     } catch (err) {
       console.log(err);
     }
-    setLoading(false);
   }, [cookies.token]);
 
   return (
@@ -62,7 +59,7 @@ function App() {
       <Helmet>
         <title>종합도서관리시스템</title>
       </Helmet>
-      <Header isLogin={isLogin} loading={loading} user={user[0]} />
+      <Header isLogin={isLogin} user={user[0]} />
       <Gnb />
       <Routes>
         <Route path="/" element={<Home />} />

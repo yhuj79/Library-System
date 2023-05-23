@@ -227,7 +227,7 @@ export default function MyInfoUpdate() {
               수정
             </Button>
           ) : (
-            <Button positive disabled>
+            <Button positive loading>
               수정
             </Button>
           )}

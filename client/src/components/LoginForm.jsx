@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [userID, setUserID] = useState("");
   const [passwd, setPasswd] = useState("");
   const [err, setErr] = useState("");
@@ -16,6 +17,7 @@ export default function LoginForm() {
 
   async function Login() {
     setErr("");
+    setLoading(true);
     await axios({
       url: `${process.env.REACT_APP_HOST}/auth/login`,
       method: "POST",
@@ -29,13 +31,16 @@ export default function LoginForm() {
         if (result.status === 200) {
           setCookie("token", result.data);
           window.open("/", "_self");
+          setLoading(false);
         }
       })
       .catch((err) => {
         if (err.response.status === 403) {
           setErr("아이디 또는 비밀번호가 올바르지 않습니다.");
+          setLoading(false);
         } else {
           console.log("Error");
+          setLoading(false);
         }
       });
   }
@@ -76,12 +81,24 @@ export default function LoginForm() {
           {err && <p className={styles.errText}>{err}</p>}
         </div>
         <div className={styles.buttonBox}>
-          <Button onClick={Login} positive>
-            로그인
-          </Button>
-          <Button onClick={() => navigate("/register")} secondary>
-            회원가입
-          </Button>
+          {!loading ? (
+            <Button onClick={Login} positive>
+              로그인
+            </Button>
+          ) : (
+            <Button positive loading>
+              로그인
+            </Button>
+          )}
+          {!loading ? (
+            <Button onClick={() => navigate("/register")} secondary>
+              회원가입
+            </Button>
+          ) : (
+            <Button secondary disabled>
+              회원가입
+            </Button>
+          )}
         </div>
       </div>
     </div>

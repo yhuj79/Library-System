@@ -292,7 +292,7 @@ function BookForm() {
               size="large"
               onClick={PreviewHandler}
               primary
-              loading
+              disabled
             >
               미리보기
             </Button>
