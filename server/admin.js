@@ -137,7 +137,7 @@ router.post("/book/delete", (req, res) => {
 
 router.get("/bookstat/validate", (req, res) => {
   const { title } = req.query;
-  db.query(`SELECT * fROM sys.BOOKSTAT WHERE title="${title}"`, (err, data) => {
+  db.query(`SELECT * FROM sys.BOOKSTAT WHERE title="${title}"`, (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -157,8 +157,8 @@ router.post("/bookstat/insert", (req, res) => {
 
 router.post("/bookstat/update", (req, res) => {
   const { title } = req.body;
-  const sql = "UPDATE sys.BOOKSTAT SET lentStat=lentStat+1 WHERE title=?";
-  const params = [title];
+  const sql = "UPDATE sys.BOOKSTAT SET lentStat = lentStat + ? WHERE title = ?";
+  const params = [1, title];
   db.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });

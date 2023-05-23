@@ -28,8 +28,10 @@ function BookLentModal({ open, setOpen, data }) {
           } else {
             console.log("Validate Book Complete!");
             LentBook();
+            UpdateBookStat();
             setOpen(true);
             setLoading(false);
+            window.location.reload();
           }
         })
         .catch((err) => {
@@ -53,8 +55,6 @@ function BookLentModal({ open, setOpen, data }) {
       .then((result) => {
         if (result.status === 200) {
           console.log("Save Book Complete!");
-          UpdateBookStat(data.title);
-          window.location.reload();
         }
       })
       .catch((err) => {
@@ -63,13 +63,13 @@ function BookLentModal({ open, setOpen, data }) {
       });
   }
 
-  async function UpdateBookStat(title) {
+  async function UpdateBookStat() {
     await axios({
       url: `${process.env.REACT_APP_HOST}/admin/bookstat/update`,
       method: "POST",
       withCredentials: true,
       data: {
-        title: title,
+        title: data.title,
       },
     })
       .then((result) => {
