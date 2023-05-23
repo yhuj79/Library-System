@@ -157,7 +157,7 @@ router.post("/bookstat/insert", (req, res) => {
 
 router.post("/bookstat/update", (req, res) => {
   const { title } = req.body;
-  const sql = "UPDATE sys.BOOKSTAT SET lentStat = lentStat + 1 WHERE title = ?";
+  const sql = "UPDATE sys.BOOKSTAT SET lentStat=lentStat+1 WHERE title=?";
   const params = [title];
   db.query(sql, params, (err, rows, fields) => {
     res.send(rows);
