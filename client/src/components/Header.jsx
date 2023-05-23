@@ -9,17 +9,17 @@ function Header({ isLogin, user }) {
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies(["userID"]);
 
-  function Logout() {
-    axios({
+  async function Logout() {
+    await axios({
       url: `${process.env.REACT_APP_HOST}/auth/logout`,
       method: "POST",
       withCredentials: true,
     }).then((res) => {
       if (res.status === 200) {
         removeCookie("token");
-        window.open("/", "_self");
       }
     });
+    window.location.replace("/");
   }
 
   return (

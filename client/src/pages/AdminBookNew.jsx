@@ -34,7 +34,7 @@ function AdminBookNew() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [cookies.token]);
 
   if (admin) {
     return (
