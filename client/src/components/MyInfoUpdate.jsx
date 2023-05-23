@@ -66,6 +66,7 @@ export default function MyInfoUpdate() {
       .then((result) => {
         if (result.status === 200) {
           console.log("Update Complete!");
+          setOpen(true);
         }
       })
       .catch((err) => {
