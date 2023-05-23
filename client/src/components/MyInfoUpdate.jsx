@@ -44,20 +44,7 @@ export default function MyInfoUpdate() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
-
-  function Logout() {
-    axios({
-      url: `${process.env.REACT_APP_HOST}/auth/logout`,
-      method: "POST",
-      withCredentials: true,
-    }).then((res) => {
-      if (res.status === 200) {
-        setOpen(true);
-        setLoading(false);
-      }
-    });
-  }
+  }, [cookies.token]);
 
   async function Update() {
     setErr("");
@@ -79,7 +66,6 @@ export default function MyInfoUpdate() {
       .then((result) => {
         if (result.status === 200) {
           console.log("Update Complete!");
-          Logout();
         }
       })
       .catch((err) => {
@@ -242,12 +228,12 @@ export default function MyInfoUpdate() {
         <Modal.Header>수정 완료</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <p>다시 로그인 후 이용해 주세요.</p>
+            <p>내 정보 변경이 완료되었습니다.</p>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => window.open("/login", "_self")} positive>
-            로그인
+          <Button onClick={() => window.open("/mypage", "_self")} positive>
+            내 정보
           </Button>
           <Button onClick={() => window.open("/", "_self")} secondary>
             메인 화면으로
