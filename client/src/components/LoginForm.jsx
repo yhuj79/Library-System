@@ -4,16 +4,19 @@ import axios from "axios";
 import { Button, Input } from "semantic-ui-react";
 import styles from "../style/Input.module.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [userID, setUserID] = useState("");
   const [passwd, setPasswd] = useState("");
   const [err, setErr] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["userID"]);
 
-  function Login() {
+  async function Login() {
     setErr("");
-    axios({
+    await axios({
       url: `${process.env.REACT_APP_HOST}/auth/login`,
       method: "POST",
       withCredentials: true,
@@ -24,12 +27,15 @@ export default function LoginForm() {
     })
       .then((result) => {
         if (result.status === 200) {
+          setCookie("token", result.data);
           window.open("/", "_self");
         }
       })
       .catch((err) => {
         if (err.response.status === 403) {
           setErr("아이디 또는 비밀번호가 올바르지 않습니다.");
+        } else {
+          console.log("Error");
         }
       });
   }

@@ -23,15 +23,20 @@ import ApiTest from "./pages/ApiTest";
 import AdminUser from "./pages/AdminUser";
 import AdminBook from "./pages/AdminBook";
 import NotFound from "./pages/NotFound";
+import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["userID"]);
 
   useEffect(() => {
     try {
       axios({
-        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
+        url: `${process.env.REACT_APP_HOST}/auth/authentication`,
+        params: { userID: jwtDecode(cookies.token).userID },
         method: "GET",
         withCredentials: true,
       })
@@ -47,14 +52,14 @@ function App() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [cookies.token]);
 
   return (
     <Router>
       <Helmet>
         <title>종합도서관리시스템</title>
       </Helmet>
-      <Header isLogin={isLogin} user={user} />
+      <Header isLogin={isLogin} user={user[0]} />
       <Gnb />
       <Routes>
         <Route path="/" element={<Home />} />

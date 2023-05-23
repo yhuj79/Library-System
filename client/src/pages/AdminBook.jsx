@@ -6,16 +6,21 @@ import BookChart from "../components/BookChart";
 import { Button, Container, Input, Tab } from "semantic-ui-react";
 import { Helmet } from "react-helmet-async";
 import styles from "../style/Chart.module.css";
+import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 function AdminUser() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["userID"]);
 
   useEffect(() => {
     try {
       axios({
         url: `${process.env.REACT_APP_HOST}/admin/access`,
+        params: { admin: jwtDecode(cookies.token).admin.data },
         method: "GET",
         withCredentials: true,
       })

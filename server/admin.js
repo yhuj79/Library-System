@@ -3,12 +3,10 @@ const jwt = require("jsonwebtoken");
 const db = require("./Databse");
 
 router.get("/access", (req, res) => {
+  const { admin } = req.query;
   try {
-    const token = req.cookies.accessToken;
-    const data = jwt.verify(token, process.env.ACCESS_SECRET);
-
-    if (data.admin.data == 1) {
-      res.status(200).json(data.admin.data);
+    if (admin == 1) {
+      res.status(200).json(admin);
     } else {
       res.status(403).json("Not Accessed");
     }
@@ -168,7 +166,7 @@ router.post("/bookstat/update", (req, res) => {
 
 router.get("/book/lent/validate", (req, res) => {
   const { bookID } = req.query;
-  db.query(`SELECT * fROM sys.LENT WHERE bookID="${bookID}"`, (err, data) => {
+  db.query(`SELECT * FROM sys.LENT WHERE bookID="${bookID}"`, (err, data) => {
     if (err) {
       console.log(err);
     } else {

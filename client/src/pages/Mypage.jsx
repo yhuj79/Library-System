@@ -6,10 +6,14 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import MyInfoChart from "../components/MyInfoChart";
 import styles from "../style/Mypage.module.css";
+import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 function Mypage() {
   const [authData, setAuthData] = useState([]);
   const [lentListData, setLentListData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["userID"]);
 
   useEffect(() => {
     AuthHandler();
@@ -19,13 +23,14 @@ function Mypage() {
   function AuthHandler() {
     try {
       axios({
-        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
+        url: `${process.env.REACT_APP_HOST}/auth/authentication`,
+        params: { userID: jwtDecode(cookies.token).userID },
         method: "GET",
         withCredentials: true,
       })
         .then((res) => {
-          setAuthData(res.data);
-          LentListHandler(res.data.userID);
+          setAuthData(res.data[0]);
+          LentListHandler(res.data[0].userID);
         })
         .catch((err) => {
           console.log(err);

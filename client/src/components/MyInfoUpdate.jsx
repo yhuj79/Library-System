@@ -6,6 +6,8 @@ import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 import { Button, Input, Modal } from "semantic-ui-react";
 import styles from "../style/Input.module.css";
 import profileDefault from "../assets/user/profile-default.jpg";
+import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 export default function MyInfoUpdate() {
   const [userID, setUserID] = useState("");
@@ -18,20 +20,23 @@ export default function MyInfoUpdate() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const [open, setOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [cookies, setCookie] = useCookies(["userID"]);
 
   useEffect(() => {
     try {
       axios({
-        url: `${process.env.REACT_APP_HOST}/auth/login/success`,
+        url: `${process.env.REACT_APP_HOST}/auth/authentication`,
+        params: { userID: jwtDecode(cookies.token).userID },
         method: "GET",
         withCredentials: true,
       })
         .then((res) => {
-          setUserID(res.data.userID);
-          setEmail(res.data.email);
-          setUserName(res.data.userName);
-          setUserAffiliation(res.data.userAffiliation);
-          setProfileImg(res.data.profileImg);
+          setUserID(res.data[0].userID);
+          setEmail(res.data[0].email);
+          setUserName(res.data[0].userName);
+          setUserAffiliation(res.data[0].userAffiliation);
+          setProfileImg(res.data[0].profileImg);
         })
         .catch((err) => {
           console.log(err);
