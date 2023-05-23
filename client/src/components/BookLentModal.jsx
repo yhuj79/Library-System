@@ -69,7 +69,7 @@ function BookLentModal({ open, setOpen, data }) {
       method: "POST",
       withCredentials: true,
       data: {
-        title: title,
+        title: data.title,
       },
     })
       .then((result) => {
