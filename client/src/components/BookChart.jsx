@@ -115,7 +115,7 @@ function BookChart({ searchValue }) {
   function ReturnedBookHandler(bookID, title, userID) {
     if (
       window.confirm(
-        `(${bookID}) ${title} / ID : ${userID}\n반납 처리 하시겠습니까?`
+        `(${bookID}) ${title}\n반납 처리 하시겠습니까?`
       )
     ) {
       ReturnedBook(bookID, userID);

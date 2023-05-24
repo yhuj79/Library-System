@@ -8,6 +8,7 @@ import UserChart from "./UserChart";
 function BookLentModal({ open, setOpen, data }) {
   const [searchValue, setSearchValue] = useState("");
   const [userID, setUserID] = useState("");
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState("");
   const [err, setErr] = useState("");
 
@@ -29,8 +30,6 @@ function BookLentModal({ open, setOpen, data }) {
             console.log("Validate Book Complete!");
             LentBook();
             UpdateBookStat();
-            setOpen(true);
-            setLoading(false);
           }
         })
         .catch((err) => {
@@ -74,6 +73,7 @@ function BookLentModal({ open, setOpen, data }) {
       .then((result) => {
         if (result.status === 200) {
           console.log("Update BookStat Complete!");
+          setLoading(false);
           window.location.reload();
         }
       })
@@ -102,10 +102,11 @@ function BookLentModal({ open, setOpen, data }) {
           select={true}
           userID={userID}
           setUserID={setUserID}
+          setUserName={setUserName}
         />
         <BookDeatail data={data} />
         <Header>도서 식별번호 : {data.bookID}</Header>
-        {userID && <Header>{userID} 님께 대출 실행하시겠습니까?</Header>}
+        {userName && userID && <Header>{userName} ({userID}) 님께 대출 실행하시겠습니까?</Header>}
         <div className={styles.errDiv}>
           {err && <p className={styles.errText}>{err}</p>}
         </div>

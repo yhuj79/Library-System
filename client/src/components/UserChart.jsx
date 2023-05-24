@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Icon, Table } from "semantic-ui-react";
 
-function UserChart({ searchValue, select, userID, setUserID }) {
+function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
 
@@ -31,6 +31,11 @@ function UserChart({ searchValue, select, userID, setUserID }) {
       setData(dataAll);
     }
   }, [dataAll, searchValue]);
+
+  function SelectHandler(userID, userName) {
+    setUserID(userID);
+    setUserName(userName);
+  }
 
   return (
     <Table celled textAlign="center" compact size="small">
@@ -74,7 +79,10 @@ function UserChart({ searchValue, select, userID, setUserID }) {
                 <Table.Cell>{data.userAffiliation}</Table.Cell>
                 {select ? (
                   <Table.Cell>
-                    <Button onClick={() => setUserID(data.userID)} primary>
+                    <Button
+                      onClick={() => SelectHandler(data.userID, data.userName)}
+                      primary
+                    >
                       선택
                     </Button>
                   </Table.Cell>
