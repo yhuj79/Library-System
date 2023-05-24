@@ -1,3 +1,4 @@
+// db connect
 const fs = require("fs");
 const mysql = require("mysql");
 
@@ -11,6 +12,8 @@ const db = mysql.createConnection({
 db.connect();
 
 module.exports = db;
+
+// 로컬 테스트 때 사용하는 코드 (json에서 정보 전달)
 // const fs = require("fs");
 // const mysql = require("mysql");
 

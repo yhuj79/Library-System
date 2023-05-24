@@ -1,1 +1,2 @@
+# heroku app 시작 시 앱에서 실행되는 명령 지정
 web: npm run start
