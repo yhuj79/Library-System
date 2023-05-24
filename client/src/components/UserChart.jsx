@@ -80,7 +80,7 @@ function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
                 {select ? (
                   <Table.Cell>
                     <Button
-                      onClick={() => SelectHandler(data.userID, data.userName)}
+                      onClick={SelectHandler(data.userID, data.userName)}
                       primary
                     >
                       선택
