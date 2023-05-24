@@ -19,7 +19,9 @@ app.use(cookieParser());
 // CORS 설정을 위한 미들웨어를 사용합니다.
 app.use(
   cors({
-    origin: "https://libsystem.vercel.app", // 요청을 허용할 도메인
+    // 요청을 허용할 도메인
+    // origin: "http://localhost:3000", // 로컬 테스트 때 사용
+    origin: "https://libsystem.vercel.app", // Vercel 배포한 도메인
     methods: ["GET", "POST"], // 허용할 HTTP 메서드
     credentials: true, // 쿠키를 주고받을 수 있도록 허용
   })
