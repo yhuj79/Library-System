@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Item } from "semantic-ui-react";
-import styles from "../style/BookList.module.css";
+import styles from "../style/List.module.css";
 import imgDefault from "../assets/book/imgDefault.png";
 import { useNavigate } from "react-router-dom";
 

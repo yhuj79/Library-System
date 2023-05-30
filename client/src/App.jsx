@@ -25,6 +25,9 @@ import AdminBook from "./pages/AdminBook";
 import NotFound from "./pages/NotFound";
 import { useCookies } from "react-cookie";
 import jwtDecode from "jwt-decode";
+import Board from "./pages/Board";
+import BoardNew from "./pages/BoardNew";
+import BoardInfo from "./pages/BoardInfo";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -74,11 +77,13 @@ function App() {
         />
         <Route
           path="/mypage"
-          element={isLogin ? <Mypage /> : <Navigate replace to="/" />}
+          element={isLogin ? <Mypage /> : <Navigate replace to="/login" />}
         />
         <Route
           path="/mypage/update"
-          element={isLogin ? <MypageUpdate /> : <Navigate replace to="/" />}
+          element={
+            isLogin ? <MypageUpdate /> : <Navigate replace to="/login" />
+          }
         />
         <Route path="/book/list/new" element={<BookListNew />} />
         <Route path="/book/list/popular" element={<BookListPopular />} />
@@ -86,6 +91,13 @@ function App() {
         <Route path="/admin/user" element={<AdminUser />} />
         <Route path="/admin/book" element={<AdminBook />} />
         <Route path="/admin/book/new" element={<AdminBookNew />} />
+
+        <Route path="/board" element={<Board />} />
+        <Route path="/board/:postID" element={<BoardInfo />} />
+        <Route
+          path="/board/new"
+          element={isLogin ? <BoardNew /> : <Navigate replace to="/login" />}
+        />
 
         <Route path="/*" element={<NotFound />} />
       </Routes>

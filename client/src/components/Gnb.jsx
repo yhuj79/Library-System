@@ -15,7 +15,9 @@ function Gnb() {
           <h2>도서목록</h2>
         </Link>
         <h2>내서재</h2>
-        <h2>이용자서비스</h2>
+        <Link to={"/board"}>
+          <h2>이용자서비스</h2>
+        </Link>
         <h2>도서관안내</h2>
       </div>
       <div className={styles.linkM}>

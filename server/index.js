@@ -41,6 +41,10 @@ app.use("/book", book);
 const admin = require("./admin");
 app.use("/admin", admin);
 
+// 도서 신청 페이지에서 사용되는 API
+const board = require("./board");
+app.use("/board", board);
+
 // 서버를 지정된 포트에서 실행하고 대기합니다.
 app.listen(process.env.PORT, () => {
   console.log(`Server is on ${process.env.PORT}`);

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, Item } from "semantic-ui-react";
 import imgDefault from "../assets/book/imgDefault.png";
-import styles from "../style/BookList.module.css";
+import styles from "../style/List.module.css";
 
 function BookCard({ data }) {
   const navigate = useNavigate();
