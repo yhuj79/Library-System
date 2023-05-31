@@ -28,7 +28,7 @@ function MyInfoChart({ data }) {
 
   return (
     <Container>
-      <Table textAlign="center" compact size="small" singleLine>
+      <Table textAlign="center" compact size="small" singleLine color="green">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>식별번호</Table.HeaderCell>

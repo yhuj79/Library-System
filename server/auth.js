@@ -206,4 +206,20 @@ router.get("/mypage/list/lent", (req, res) => {
   );
 });
 
+// 사용자 도서 신청글 목록 조회
+router.get("/mypage/list/board", (req, res) => {
+  const { userID } = req.query;
+  db.query(
+    // BOOK 테이블과 LENT 테이블을 조인하여 사용자의 대출 목록을 조회하는 쿼리
+    `SELECT * FROM sys.BOARD WHERE userID="${userID}"`,
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json(data);
+      }
+    }
+  );
+});
+
 module.exports = router;

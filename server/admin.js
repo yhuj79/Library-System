@@ -136,7 +136,7 @@ router.post("/book/update", (req, res) => {
       res.send(rows);
     });
   } else {
-     // 오류 메시지 전송
+    // 오류 메시지 전송
     res.status(403).json("Value Not Found");
   }
 });
@@ -202,9 +202,9 @@ router.get("/book/lent/validate", (req, res) => {
 // 대출 요청 처리
 router.post("/book/lent", (req, res) => {
   const { userID, bookID } = req.body;
-  // LENT 테이블에 사용자와 도서 id, 현재 시간, 15일 후 시간을 추가
+  // LENT 테이블에 사용자와 도서 id, 현재 시간, 현재 시간에 15일(360시간) + DB 타임존 고려하여 9시간 더한 값을 추가
   const sql =
-    "INSERT INTO sys.LENT VALUES (?, ?, now(), DATE_ADD(NOW(), INTERVAL 15 DAY))";
+    "INSERT INTO sys.LENT VALUES (?, ?, now(), DATE_ADD(NOW(), INTERVAL 369 HOUR))";
   const params = [userID, bookID];
   db.query(sql, params, (err, rows, fields) => {
     res.send(rows);

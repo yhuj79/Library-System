@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import MyInfoCard from "../components/MyInfoCard";
 import Title from "../components/Title";
-import { Container } from "semantic-ui-react";
+import { Container, Header } from "semantic-ui-react";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import MyInfoChart from "../components/MyInfoChart";
-import styles from "../style/Mypage.module.css";
 import { useCookies } from "react-cookie";
 import jwtDecode from "jwt-decode";
+import BoardList from "../components/BoardList";
 
 function Mypage() {
   const [authData, setAuthData] = useState([]);
+  const [boardData, setBoardData] = useState([]);
   const [lentListData, setLentListData] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(["userID"]);
@@ -31,6 +32,7 @@ function Mypage() {
         .then((res) => {
           setAuthData(res.data[0]);
           LentListHandler(res.data[0].userID);
+          BoardListHandler(res.data[0].userID);
         })
         .catch((err) => {
           console.log(err);
@@ -59,6 +61,25 @@ function Mypage() {
     }
   }
 
+  function BoardListHandler(userID) {
+    try {
+      axios({
+        url: `${process.env.REACT_APP_HOST}/auth/mypage/list/board`,
+        params: { userID: userID },
+        method: "GET",
+        withCredentials: true,
+      })
+        .then((res) => {
+          setBoardData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Container style={{ paddingBottom: "50px" }}>
       <Helmet>
@@ -70,10 +91,11 @@ function Mypage() {
           "개인정보보호를 위해 공유 PC에서는 반드시 사용 후 로그아웃을 확인하세요."
         }
       />
-      <div className={styles.wrap}>
-        <MyInfoCard data={authData} />
-        {lentListData.length > 0 && <MyInfoChart data={lentListData} />}
-      </div>
+      <MyInfoCard data={authData} />
+      <Header>대출 내역</Header>
+      {lentListData.length > 0 && <MyInfoChart data={lentListData} />}
+      <Header>도서 신청글 목록</Header>
+      {boardData && <BoardList data={boardData} />}
     </Container>
   );
 }
