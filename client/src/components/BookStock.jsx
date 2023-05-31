@@ -1,9 +1,13 @@
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import { Icon, Table } from "semantic-ui-react";
+import "../style/Stock.css";
+import BookStockModal from "./BookStockModal";
 
 function BookStock({ data }) {
   const today = moment();
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState([]);
 
   function DateHandler(returnedAt) {
     if (returnedAt) {
@@ -26,6 +30,11 @@ function BookStock({ data }) {
     }
   }
 
+  function ModalHandler(data) {
+    setOpen(true);
+    setModalData(data);
+  }
+
   return (
     <Table singleLine>
       <Table.Header>
@@ -33,7 +42,7 @@ function BookStock({ data }) {
           <Table.HeaderCell>식별번호</Table.HeaderCell>
           <Table.HeaderCell>도서 위치</Table.HeaderCell>
           <Table.HeaderCell>상태</Table.HeaderCell>
-          <Table.HeaderCell>서비스</Table.HeaderCell>
+          <Table.HeaderCell>위치</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       {JSON.stringify(data) !== "[]" &&
@@ -70,11 +79,19 @@ function BookStock({ data }) {
                     대출 가능
                   </Table.Cell>
                 )}
-                <Table.Cell>No</Table.Cell>
+                <Table.Cell>
+                  <Icon
+                    onClick={() => ModalHandler(data)}
+                    name="linkify"
+                    color="green"
+                    link
+                  />
+                </Table.Cell>
               </Table.Row>
             </Table.Body>
           );
         })}
+      <BookStockModal data={modalData} open={open} setOpen={setOpen} />
     </Table>
   );
 }

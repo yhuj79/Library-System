@@ -179,12 +179,14 @@ function BookChart({ searchValue }) {
                   <Icon
                     name="edit"
                     circular
+                    link
                     onClick={() => BookUpdateModalHandler(data)}
                   />
                   {data.returnedAt ? (
                     <Icon
                       name="sign-in"
                       circular
+                      link
                       color="green"
                       onClick={() =>
                         ReturnedBookHandler(
@@ -198,6 +200,7 @@ function BookChart({ searchValue }) {
                     <Icon
                       name="sign-out"
                       circular
+                      link
                       color="blue"
                       onClick={() => BookLentModalHandler(data)}
                     />

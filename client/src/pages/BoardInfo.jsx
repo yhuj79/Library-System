@@ -105,14 +105,16 @@ function BoardInfo() {
           positive
         />
       )}
-      {user[0] && data[0] && user[0].userID === data[0].userID && (
-        <Button
-          onClick={() => setDeleteModalOpen(true)}
-          floated="right"
-          content="삭제"
-          color="red"
-        />
-      )}
+      {user[0] &&
+        data[0] &&
+        (user[0].userID === data[0].userID || user[0].userID === "admin") && (
+          <Button
+            onClick={() => setDeleteModalOpen(true)}
+            floated="right"
+            content="삭제"
+            color="red"
+          />
+        )}
       <Segment>
         {JSON.stringify(data) !== "[]" && (
           <Item.Group divided>

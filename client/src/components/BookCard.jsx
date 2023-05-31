@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Icon, Item } from "semantic-ui-react";
+import { Item } from "semantic-ui-react";
 import imgDefault from "../assets/book/imgDefault.png";
 import styles from "../style/List.module.css";
 
@@ -9,7 +9,7 @@ function BookCard({ data }) {
 
   return (
     <Item
-      style={{padding: '15px'}}
+      style={{ padding: "15px" }}
       className={styles.list}
       onClick={() => navigate(`/book/${data.title}`)}
     >
@@ -27,16 +27,6 @@ function BookCard({ data }) {
           {data.publisher} / {data.year}
         </Item.Description>
         <Item.Description>{data.genre}</Item.Description>
-        <Item.Extra>
-          <Button positive floated="right">
-            대출
-            <Icon name="right chevron" />
-          </Button>
-          <Button primary floated="right">
-            예약
-            <Icon name="right chevron" />
-          </Button>
-        </Item.Extra>
       </Item.Content>
     </Item>
   );
