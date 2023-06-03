@@ -5,6 +5,11 @@ import { Button, Icon, Table } from "semantic-ui-react";
 function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
 
   useEffect(() => {
     try {
@@ -44,7 +49,17 @@ function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
           <Table.HeaderCell>이름</Table.HeaderCell>
           <Table.HeaderCell>프로필</Table.HeaderCell>
           <Table.HeaderCell>아이디</Table.HeaderCell>
-          <Table.HeaderCell>비밀번호</Table.HeaderCell>
+          <Table.HeaderCell>
+            비밀번호&emsp;
+            <Icon
+              name="eye"
+              onClick={toggleShowPassword}
+              style={{
+                cursor: "pointer",
+                color: showPassword ? "red" : "black",
+              }}
+            />
+          </Table.HeaderCell>
           <Table.HeaderCell>이메일</Table.HeaderCell>
           <Table.HeaderCell>소속</Table.HeaderCell>
           {select ? (
@@ -74,7 +89,13 @@ function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
                   )}
                 </Table.Cell>
                 <Table.Cell>{data.userID}</Table.Cell>
-                <Table.Cell>{data.passwd}</Table.Cell>
+                {showPassword ? (
+                  <Table.Cell>{data.passwd}</Table.Cell>
+                ) : (
+                  <Table.Cell>
+                    <i>***************</i>
+                  </Table.Cell>
+                )}
                 <Table.Cell>{data.email}</Table.Cell>
                 <Table.Cell>{data.userAffiliation}</Table.Cell>
                 {select ? (
@@ -112,7 +133,13 @@ function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
                   )}
                 </Table.Cell>
                 <Table.Cell>{data.userID}</Table.Cell>
-                <Table.Cell>{data.passwd}</Table.Cell>
+                {showPassword ? (
+                  <Table.Cell>{data.passwd}</Table.Cell>
+                ) : (
+                  <Table.Cell>
+                    <i>***************</i>
+                  </Table.Cell>
+                )}
                 <Table.Cell>{data.email}</Table.Cell>
                 <Table.Cell>{data.userAffiliation}</Table.Cell>
                 {select ? (
