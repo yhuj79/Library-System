@@ -4,7 +4,6 @@ import BookDeatail from "./BookDetail";
 import axios from "axios";
 import styles from "../style/Input.module.css";
 import UserChart from "./UserChart";
-import Loading from "./Loading";
 
 function BookLentModal({ open, setOpen, data }) {
   const [searchValue, setSearchValue] = useState("");
@@ -12,7 +11,6 @@ function BookLentModal({ open, setOpen, data }) {
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState("");
   const [err, setErr] = useState("");
-  const [load, setLoad] = useState(true);
 
   function LentBookHandler() {
     setErr("");
@@ -99,18 +97,13 @@ function BookLentModal({ open, setOpen, data }) {
           value={searchValue}
           placeholder="대출자 이름을 입력하세요"
         />
-        {!load ? (
-          <UserChart
-            searchValue={searchValue}
-            setLoad={setLoad}
-            select={true}
-            userID={userID}
-            setUserID={setUserID}
-            setUserName={setUserName}
-          />
-        ) : (
-          <Loading />
-        )}
+        <UserChart
+          searchValue={searchValue}
+          select={true}
+          userID={userID}
+          setUserID={setUserID}
+          setUserName={setUserName}
+        />
         <Item.Group divided>
           <BookDeatail data={data} />
         </Item.Group>

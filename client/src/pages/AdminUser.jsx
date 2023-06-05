@@ -29,6 +29,7 @@ function AdminUser() {
         .then((res) => {
           if (res.status === 200) {
             setAdmin(true);
+            setLoad(false);
           }
         })
         .catch((err) => {
@@ -37,6 +38,7 @@ function AdminUser() {
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
   }, [cookies.token]);
 
@@ -52,7 +54,7 @@ function AdminUser() {
             value={searchValue}
             placeholder="이름을 입력하세요"
           />
-          <UserChart searchValue={searchValue} setLoad={setLoad} />
+          <UserChart searchValue={searchValue} />
         </Tab.Pane>
       ),
     },

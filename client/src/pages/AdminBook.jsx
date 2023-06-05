@@ -30,6 +30,7 @@ function AdminUser() {
         .then((res) => {
           if (res.status === 200) {
             setAdmin(true);
+            setLoad(false);
           }
         })
         .catch((err) => {
@@ -38,6 +39,7 @@ function AdminUser() {
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -74,7 +76,7 @@ function AdminUser() {
             icon="plus"
             positive
           />
-          <BookChart searchValue={searchValue} setLoad={setLoad} />
+          <BookChart searchValue={searchValue} />
         </Tab.Pane>
       ),
     },
