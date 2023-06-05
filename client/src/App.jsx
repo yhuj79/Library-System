@@ -20,7 +20,6 @@ import BookListNew from "./pages/BookListNew";
 import BookListPopular from "./pages/BookListPopular";
 import BookInfo from "./pages/BookInfo";
 import AdminBookNew from "./pages/AdminBookNew";
-import ApiTest from "./pages/ApiTest";
 import AdminUser from "./pages/AdminUser";
 import AdminBook from "./pages/AdminBook";
 import NotFound from "./pages/NotFound";
@@ -29,6 +28,8 @@ import jwtDecode from "jwt-decode";
 import Board from "./pages/Board";
 import BoardNew from "./pages/BoardNew";
 import BoardInfo from "./pages/BoardInfo";
+import Information from "./pages/Information";
+import LibSite from "./pages/LibSite";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -68,7 +69,11 @@ function App() {
       <AnimatePresence>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/apitest" element={<ApiTest />} />
+
+          <Route path="/information" element={<Information />} />
+
+          <Route path="/libsite" element={<LibSite />} />
+
           <Route
             path="/login"
             element={!isLogin ? <Login /> : <Navigate replace to="/" />}
@@ -77,6 +82,7 @@ function App() {
             path="/register"
             element={!isLogin ? <Register /> : <Navigate replace to="/" />}
           />
+
           <Route
             path="/mypage"
             element={isLogin ? <Mypage /> : <Navigate replace to="/login" />}
@@ -87,9 +93,11 @@ function App() {
               isLogin ? <MypageUpdate /> : <Navigate replace to="/login" />
             }
           />
+
           <Route path="/book/list/new" element={<BookListNew />} />
           <Route path="/book/list/popular" element={<BookListPopular />} />
           <Route path="/book/:title" element={<BookInfo />} />
+
           <Route path="/admin/user" element={<AdminUser />} />
           <Route path="/admin/book" element={<AdminBook />} />
           <Route path="/admin/book/new" element={<AdminBookNew />} />

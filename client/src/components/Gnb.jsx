@@ -12,15 +12,18 @@ function Gnb() {
         <h1>종합도서관리시스템</h1>
       </Link>
       <div className={styles.link}>
-        <h2>자료검색</h2>
+        <Link to={"/information"}>
+          <h2>시스템안내</h2>
+        </Link>
         <Link to={"/book/list/new"}>
           <h2>도서목록</h2>
         </Link>
-        <h2>내서재</h2>
         <Link to={"/board"}>
           <h2>이용자서비스</h2>
         </Link>
-        <h2>도서관안내</h2>
+        <Link to={"/libsite"}>
+          <h2>자료찾기</h2>
+        </Link>
       </div>
       <div className={styles.linkM}>
         <Icon
@@ -38,8 +41,15 @@ function Gnb() {
       >
         <Modal.Header>메뉴</Modal.Header>
         <Modal.Content>
-          <Button fluid color="green">
-            자료검색
+          <Button
+            fluid
+            color="green"
+            onClick={() => {
+              setOpen(false);
+              navigate("/information");
+            }}
+          >
+            시스템안내
           </Button>
         </Modal.Content>
         <Modal.Content>
@@ -55,11 +65,6 @@ function Gnb() {
           </Button>
         </Modal.Content>
         <Modal.Content>
-          <Button fluid color="green">
-            내서재
-          </Button>
-        </Modal.Content>
-        <Modal.Content>
           <Button
             fluid
             color="green"
@@ -72,8 +77,15 @@ function Gnb() {
           </Button>
         </Modal.Content>
         <Modal.Content>
-          <Button fluid color="green">
-            도서관안내
+          <Button
+            fluid
+            color="green"
+            onClick={() => {
+              setOpen(false);
+              navigate("/libsite");
+            }}
+          >
+            자료찾기
           </Button>
         </Modal.Content>
       </Modal>
