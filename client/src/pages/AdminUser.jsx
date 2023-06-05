@@ -64,10 +64,10 @@ function AdminUser() {
     },
   ];
 
-  if (admin) {
-    if (load) {
-      return <Loading />;
-    } else {
+  if (load) {
+    return <Loading />;
+  } else {
+    if (admin) {
       return (
         <motion.div
           initial={{ opacity: 0 }}
@@ -83,9 +83,9 @@ function AdminUser() {
           </Container>
         </motion.div>
       );
+    } else {
+      navigate("/");
     }
-  } else {
-    navigate("/");
   }
 }
 
