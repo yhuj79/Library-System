@@ -97,17 +97,19 @@ function BoardInfo() {
         icon="reply"
         labelPosition="left"
       />
-      {user[0] && data[0] && user[0].userID === data[0].userID && (
-        <Button
-          onClick={() => setOpen(true)}
-          floated="right"
-          content="수정"
-          positive
-        />
-      )}
       {user[0] &&
         data[0] &&
-        (user[0].userID === data[0].userID || user[0].userID === "admin") && (
+        (user[0].userID === data[0].userID || user[0].admin.data[0] === 1) && (
+          <Button
+            onClick={() => setOpen(true)}
+            floated="right"
+            content="수정"
+            positive
+          />
+        )}
+      {user[0] &&
+        data[0] &&
+        (user[0].userID === data[0].userID || user[0].admin.data[0] === 1) && (
           <Button
             onClick={() => setDeleteModalOpen(true)}
             floated="right"
