@@ -1,6 +1,7 @@
 .list {
     cursor: pointer !important;
     opacity: 0.95 !important;
+    border-radius: 10px;
 }
 
 .list:hover {

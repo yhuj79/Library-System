@@ -16,6 +16,7 @@ function BookUpdateModal({ open, setOpen, data }) {
     setAddress(data.address);
     setBookImg(data.bookImg);
     setPage(data.page);
+    setReturnedAt(data.returnedAt);
   }, [data]);
 
   const [bookID, setBookID] = useState("");
@@ -27,6 +28,7 @@ function BookUpdateModal({ open, setOpen, data }) {
   const [address, setAddress] = useState("");
   const [bookImg, setBookImg] = useState("");
   const [page, setPage] = useState("");
+  const [returnedAt, setReturnedAt] = useState(null);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -238,9 +240,15 @@ function BookUpdateModal({ open, setOpen, data }) {
       </Modal.Content>
       {!loading ? (
         <Modal.Actions>
-          <Button onClick={DeleteBookHandler} negative floated="left">
-            삭제
-          </Button>
+          {!returnedAt ? (
+            <Button onClick={DeleteBookHandler} negative floated="left">
+              삭제
+            </Button>
+          ) : (
+            <Button disabled negative floated="left">
+              삭제
+            </Button>
+          )}
           <Button onClick={() => setOpen(false)}>닫기</Button>
           <Button onClick={UpdateBook} positive>
             저장

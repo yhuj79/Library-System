@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Container, Input, Item, Tab } from "semantic-ui-react";
 import Title from "../components/Title";
 import BookCard from "../components/BookCard";
 import { Helmet } from "react-helmet-async";
+import Loading from "../components/Loading";
 
 function BookList() {
   const navigate = useNavigate();
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     try {
@@ -21,12 +24,14 @@ function BookList() {
       })
         .then((res) => {
           setDataAll(res.data);
+          setLoad(false);
         })
         .catch((err) => {
           console.log(err);
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
   }, []);
 
@@ -68,15 +73,25 @@ function BookList() {
     },
   ];
 
-  return (
-    <Container style={{ paddingBottom: "50px" }}>
-      <Helmet>
-        <title>도서 목록 | 종합도서관리시스템</title>
-      </Helmet>
-      <Title title={"도서 목록"} />
-      <Tab panes={panes} defaultActiveIndex={0} />
-    </Container>
-  );
+  if (load) {
+    return <Loading />;
+  } else {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Container style={{ paddingBottom: "50px" }}>
+          <Helmet>
+            <title>도서 목록 | 종합도서관리시스템</title>
+          </Helmet>
+          <Title title={"도서 목록"} />
+          <Tab panes={panes} defaultActiveIndex={0} />
+        </Container>
+      </motion.div>
+    );
+  }
 }
 
 export default BookList;

@@ -51,6 +51,7 @@ function BookChart({ searchValue }) {
       address: data.address,
       bookImg: data.bookImg,
       page: data.page,
+      returnedAt: data.returnedAt,
     });
     setBookUpdateModalOpen(true);
   }

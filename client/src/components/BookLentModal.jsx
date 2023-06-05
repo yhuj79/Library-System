@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Modal, Header } from "semantic-ui-react";
+import { Button, Input, Modal, Header, Item } from "semantic-ui-react";
 import BookDeatail from "./BookDetail";
 import axios from "axios";
 import styles from "../style/Input.module.css";
@@ -104,9 +104,15 @@ function BookLentModal({ open, setOpen, data }) {
           setUserID={setUserID}
           setUserName={setUserName}
         />
-        <BookDeatail data={data} />
+        <Item.Group divided>
+          <BookDeatail data={data} />
+        </Item.Group>
         <Header>도서 식별번호 : {data.bookID}</Header>
-        {userName && userID && <Header>{userName} ({userID}) 님께 대출 실행하시겠습니까?</Header>}
+        {userName && userID && (
+          <Header>
+            {userName} ({userID}) 님께 대출 실행하시겠습니까?
+          </Header>
+        )}
         <div className={styles.errDiv}>
           {err && <p className={styles.errText}>{err}</p>}
         </div>

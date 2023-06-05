@@ -222,4 +222,15 @@ router.get("/mypage/list/board", (req, res) => {
   );
 });
 
+// 사용자 탈퇴 처리
+router.post("/delete", (req, res) => {
+  const { userID } = req.body;
+  // '?' 파라미터에 user id값을 받아 DELETE
+  const sql = "DELETE FROM sys.USER WHERE userID=?";
+  const params = [userID];
+  db.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
 module.exports = router;

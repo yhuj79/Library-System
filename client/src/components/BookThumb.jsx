@@ -3,6 +3,7 @@ import { Grid, Item } from "semantic-ui-react";
 import styles from "../style/List.module.css";
 import imgDefault from "../assets/book/imgDefault.png";
 import { useNavigate } from "react-router-dom";
+import imgStyles from "../style/Image.module.css";
 
 function BookThumb({ data }) {
   const navigate = useNavigate();
@@ -32,13 +33,15 @@ function BookThumb({ data }) {
               {data.bookImg === "imgDefault" ? (
                 <img
                   alt=""
-                  style={{ width: "200px", height: "303px" }}
+                  className={imgStyles.bookImg}
+                  style={{ height: "303px" }}
                   src={imgDefault}
                 />
               ) : (
                 <img
                   alt=""
-                  style={{ width: "200px", height: "303px" }}
+                  className={imgStyles.bookImg}
+                  style={{ height: "303px" }}
                   src={data.bookImg}
                 />
               )}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Title from "../components/Title";
@@ -8,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import styles from "../style/Chart.module.css";
 import { useCookies } from "react-cookie";
 import jwtDecode from "jwt-decode";
+import Loading from "../components/Loading";
 
 function AdminUser() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ function AdminUser() {
   const [searchValue, setSearchValue] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(["userID"]);
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     try {
@@ -27,6 +30,7 @@ function AdminUser() {
         .then((res) => {
           if (res.status === 200) {
             setAdmin(true);
+            setLoad(false);
           }
         })
         .catch((err) => {
@@ -35,8 +39,9 @@ function AdminUser() {
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const panes = [
@@ -78,15 +83,25 @@ function AdminUser() {
   ];
 
   if (admin) {
-    return (
-      <Container style={{ paddingBottom: "50px" }}>
-        <Helmet>
-          <title>관리자 페이지 | 종합도서관리시스템</title>
-        </Helmet>
-        <Title title={"관리자 페이지"} />
-        <Tab panes={panes} defaultActiveIndex={1} />
-      </Container>
-    );
+    if (load) {
+      return <Loading />;
+    } else {
+      return (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Container style={{ paddingBottom: "50px" }}>
+            <Helmet>
+              <title>관리자 페이지 | 종합도서관리시스템</title>
+            </Helmet>
+            <Title title={"관리자 페이지"} />
+            <Tab panes={panes} defaultActiveIndex={1} />
+          </Container>
+        </motion.div>
+      );
+    }
   } else {
     navigate("/");
   }

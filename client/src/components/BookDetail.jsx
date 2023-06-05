@@ -1,25 +1,24 @@
 import React from "react";
 import { Icon, Item, Table } from "semantic-ui-react";
 import imgDefault from "../assets/book/imgDefault.png";
+import styles from "../style/Image.module.css";
 
 function BookDeatail({ data }) {
   return (
     <Item>
       {data.bookImg === "imgDefault" ? (
-        <img
-          alt=""
-          style={{ width: "200px", margin: "0 10px 10px 0" }}
-          src={imgDefault}
-        />
+        <img alt="" className={styles.bookImg} src={imgDefault} />
       ) : (
-        <img
-          alt=""
-          style={{ width: "200px", margin: "0 10px 10px 0" }}
-          src={data.bookImg}
-        />
+        <img alt="" className={styles.bookImg} src={data.bookImg} />
       )}
-      <Item.Content>
-        <Table striped collapsing singleLine color="green">
+      <Item.Content style={{ margin: "3px" }}>
+        <Table
+          style={{ height: "100%" }}
+          striped
+          collapsing
+          singleLine
+          color="green"
+        >
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell colSpan="2" style={{ fontSize: "22px" }}>

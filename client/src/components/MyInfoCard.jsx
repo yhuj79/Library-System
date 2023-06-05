@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button, Image } from "semantic-ui-react";
 import profileDefault from "../assets/user/profile-default.jpg";
 import { useNavigate } from "react-router-dom";
+import MyInfoWithdrawalModal from "./MyInfoWithdrawalModal";
 
 function MyInfoCard({ data }) {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   return (
     <Card.Group>
@@ -25,10 +27,13 @@ function MyInfoCard({ data }) {
             <Button positive onClick={() => navigate("/mypage/update")}>
               수정
             </Button>
-            <Button secondary>탈퇴</Button>
+            <Button secondary onClick={() => setOpen(true)}>
+              탈퇴
+            </Button>
           </div>
         </Card.Content>
       </Card>
+      <MyInfoWithdrawalModal open={open} setOpen={setOpen} data={data} />
     </Card.Group>
   );
 }

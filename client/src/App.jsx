@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { AnimatePresence } from "framer-motion";
 import "semantic-ui-css/semantic.min.css";
 import axios from "axios";
 import Header from "./components/Header";
@@ -64,43 +65,45 @@ function App() {
       </Helmet>
       <Header isLogin={isLogin} user={user[0]} />
       <Gnb />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/apitest" element={<ApiTest />} />
-        <Route
-          path="/login"
-          element={!isLogin ? <Login /> : <Navigate replace to="/" />}
-        />
-        <Route
-          path="/register"
-          element={!isLogin ? <Register /> : <Navigate replace to="/" />}
-        />
-        <Route
-          path="/mypage"
-          element={isLogin ? <Mypage /> : <Navigate replace to="/login" />}
-        />
-        <Route
-          path="/mypage/update"
-          element={
-            isLogin ? <MypageUpdate /> : <Navigate replace to="/login" />
-          }
-        />
-        <Route path="/book/list/new" element={<BookListNew />} />
-        <Route path="/book/list/popular" element={<BookListPopular />} />
-        <Route path="/book/:title" element={<BookInfo />} />
-        <Route path="/admin/user" element={<AdminUser />} />
-        <Route path="/admin/book" element={<AdminBook />} />
-        <Route path="/admin/book/new" element={<AdminBookNew />} />
+      <AnimatePresence>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/apitest" element={<ApiTest />} />
+          <Route
+            path="/login"
+            element={!isLogin ? <Login /> : <Navigate replace to="/" />}
+          />
+          <Route
+            path="/register"
+            element={!isLogin ? <Register /> : <Navigate replace to="/" />}
+          />
+          <Route
+            path="/mypage"
+            element={isLogin ? <Mypage /> : <Navigate replace to="/login" />}
+          />
+          <Route
+            path="/mypage/update"
+            element={
+              isLogin ? <MypageUpdate /> : <Navigate replace to="/login" />
+            }
+          />
+          <Route path="/book/list/new" element={<BookListNew />} />
+          <Route path="/book/list/popular" element={<BookListPopular />} />
+          <Route path="/book/:title" element={<BookInfo />} />
+          <Route path="/admin/user" element={<AdminUser />} />
+          <Route path="/admin/book" element={<AdminBook />} />
+          <Route path="/admin/book/new" element={<AdminBookNew />} />
 
-        <Route path="/board" element={<Board />} />
-        <Route path="/board/:postID" element={<BoardInfo />} />
-        <Route
-          path="/board/new"
-          element={isLogin ? <BoardNew /> : <Navigate replace to="/login" />}
-        />
+          <Route path="/board" element={<Board />} />
+          <Route path="/board/:postID" element={<BoardInfo />} />
+          <Route
+            path="/board/new"
+            element={isLogin ? <BoardNew /> : <Navigate replace to="/login" />}
+          />
 
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </AnimatePresence>
     </Router>
   );
 }
