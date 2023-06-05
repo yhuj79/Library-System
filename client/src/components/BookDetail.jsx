@@ -22,7 +22,7 @@ function BookDeatail({ data }) {
         <Table striped collapsing singleLine color="green">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan="2" style={{ fontSize: "25px" }}>
+              <Table.HeaderCell colSpan="2" style={{ fontSize: "22px" }}>
                 {data.title}
               </Table.HeaderCell>
             </Table.Row>
