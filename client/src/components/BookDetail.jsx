@@ -1,23 +1,75 @@
 import React from "react";
-import { Item } from "semantic-ui-react";
+import { Icon, Item, Table } from "semantic-ui-react";
 import imgDefault from "../assets/book/imgDefault.png";
 
 function BookDeatail({ data }) {
   return (
     <Item>
       {data.bookImg === "imgDefault" ? (
-        <img alt="" style={{ width: "200px" }} src={imgDefault} />
+        <img
+          alt=""
+          style={{ width: "200px", margin: "0 10px 10px 0" }}
+          src={imgDefault}
+        />
       ) : (
-        <img alt="" style={{ width: "200px" }} src={data.bookImg} />
+        <img
+          alt=""
+          style={{ width: "200px", margin: "0 10px 10px 0" }}
+          src={data.bookImg}
+        />
       )}
-      <Item.Content style={{ margin: "10px" }}>
-        <Item.Header as="h1">{data.title}</Item.Header>
-        <Item.Description>저자 : {data.author}</Item.Description>
-        <Item.Description>
-          발행사항 : {data.publisher} / {data.year}
-        </Item.Description>
-        <Item.Description>장르 : {data.genre}</Item.Description>
-        <Item.Description>페이지 수 : {data.page} P</Item.Description>
+      <Item.Content>
+        <Table striped collapsing singleLine color="green">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan="2" style={{ fontSize: "25px" }}>
+                {data.title}
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell collapsing>
+                &emsp;
+                <Icon name="pencil alternate" />
+                &nbsp;저자&emsp;
+              </Table.Cell>
+              <Table.Cell>&emsp;{data.author}&emsp;</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                &emsp;
+                <Icon name="bookmark" />
+                &nbsp;출판사&emsp;
+              </Table.Cell>
+              <Table.Cell>&emsp;{data.publisher}&emsp;</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                &emsp;
+                <Icon name="time" />
+                &nbsp;출판 연도&emsp;
+              </Table.Cell>
+              <Table.Cell>&emsp;{data.year}&emsp;</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                &emsp;
+                <Icon name="sitemap" />
+                &nbsp;장르&emsp;
+              </Table.Cell>
+              <Table.Cell>&emsp;{data.genre}&emsp;</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                &emsp;
+                <Icon name="file outline" />
+                &nbsp;페이지 수&emsp;
+              </Table.Cell>
+              <Table.Cell>&emsp;{data.page} P&emsp;</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
       </Item.Content>
     </Item>
   );
