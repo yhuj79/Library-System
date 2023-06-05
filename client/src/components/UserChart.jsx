@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Icon, Table } from "semantic-ui-react";
 
-function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
+function UserChart({ searchValue, setLoad, select, userID, setUserID, setUserName }) {
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
@@ -20,13 +20,16 @@ function UserChart({ searchValue, select, userID, setUserID, setUserName }) {
       })
         .then((res) => {
           setDataAll(res.data);
+          setLoad(false);
         })
         .catch((err) => {
           console.log(err);
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

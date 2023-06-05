@@ -5,7 +5,7 @@ import BookUpdateModal from "./BookUpdateModal";
 import BookLentModal from "./BookLentModal";
 import moment from "moment";
 
-function BookChart({ searchValue }) {
+function BookChart({ searchValue, setLoad }) {
   const [dataAll, setDataAll] = useState([]);
   const [data, setData] = useState([]);
   const [bookUpdateModalOpen, setBookUpdateModalOpen] = useState(false);
@@ -23,13 +23,16 @@ function BookChart({ searchValue }) {
       })
         .then((res) => {
           setDataAll(res.data);
+          setLoad(false);
         })
         .catch((err) => {
           console.log(err);
         });
     } catch (err) {
       console.log(err);
+      setLoad(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -114,11 +117,7 @@ function BookChart({ searchValue }) {
   }
 
   function ReturnedBookHandler(bookID, title, userID) {
-    if (
-      window.confirm(
-        `(${bookID}) ${title}\n반납 처리 하시겠습니까?`
-      )
-    ) {
+    if (window.confirm(`(${bookID}) ${title}\n반납 처리 하시겠습니까?`)) {
       ReturnedBook(bookID, userID);
     }
   }
