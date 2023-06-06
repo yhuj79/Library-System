@@ -80,7 +80,7 @@ export default function MyInfoUpdate() {
           setErr("비밀번호가 일치하지 않습니다. (비밀번호 확인)");
           setLoading(false);
         } else if (err.response.data === "passwd Validate Failed") {
-          setErr("비밀번호 형식은 8~20자리 문자,숫자,특수문자입니다.");
+          setErr("비밀번호는 8~20자리 문자,숫자,특수문자입니다.");
           setLoading(false);
         } else if (err.response.data === "email Validate Failed") {
           setErr("이메일 형식이 올바르지 않습니다.");
