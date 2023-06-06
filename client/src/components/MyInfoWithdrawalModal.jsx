@@ -69,9 +69,15 @@ function MyInfoWithdrawalModal({ open, setOpen, data }) {
           </Button>
         )}
         {confirm === `${data.userID}/${data.userName}/탈퇴` ? (
-          <Button negative onClick={() => DeleteUser(data.userID)}>
-            탈퇴
-          </Button>
+          !loading ? (
+            <Button negative onClick={() => DeleteUser(data.userID)}>
+              탈퇴
+            </Button>
+          ) : (
+            <Button negative loading>
+              탈퇴
+            </Button>
+          )
         ) : (
           <Button disabled negative>
             탈퇴
