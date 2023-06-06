@@ -224,7 +224,7 @@ export default function RegisterForm() {
               </Button>
             )
           ) : (
-            <Button positive loading>
+            <Button positive disabled loading>
               회원가입
             </Button>
           )}
