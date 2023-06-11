@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "../style/Header.module.css";
 import { useCookies } from "react-cookie";
+import { Icon } from "semantic-ui-react";
 
 function Header({ isLogin, user }) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies(["userID"]);
 
@@ -16,10 +18,23 @@ function Header({ isLogin, user }) {
       withCredentials: true,
     }).then((res) => {
       if (res.status === 200) {
-        removeCookie("token");
+        CookieHandler();
       }
     });
-    window.location.replace("/");
+  }
+
+  function CookieHandler() {
+    setLoading(true);
+
+    removeCookie("token");
+    removeCookie("token");
+    removeCookie("token");
+    removeCookie("token");
+    removeCookie("token");
+
+    setTimeout(function () {
+      window.location.replace("/");
+    }, 1000);
   }
 
   return (
@@ -34,7 +49,13 @@ function Header({ isLogin, user }) {
               <li onClick={() => navigate("/admin/user")}>관리자</li>
             )}
             <li onClick={() => navigate("/mypage")}>내 정보</li>
-            <li onClick={Logout}>로그아웃</li>
+            {!loading ? (
+              <li onClick={Logout}>로그아웃</li>
+            ) : (
+              <li>
+                <Icon loading name="spinner" style={{ margin: "0 19px" }} />
+              </li>
+            )}
           </div>
         ) : (
           <div className={styles.box}>
