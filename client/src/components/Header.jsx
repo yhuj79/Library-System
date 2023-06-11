@@ -26,11 +26,11 @@ function Header({ isLogin, user }) {
   function CookieHandler() {
     setLoading(true);
 
-    removeCookie("token");
-    removeCookie("token");
-    removeCookie("token");
-    removeCookie("token");
-    removeCookie("token");
+    removeCookie("token", { path: "/" });
+    removeCookie("token", { path: "/" });
+    removeCookie("token", { path: "/" });
+    removeCookie("token", { path: "/" });
+    removeCookie("token", { path: "/" });
 
     setTimeout(function () {
       window.location.replace("/");
