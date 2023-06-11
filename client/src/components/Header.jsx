@@ -53,7 +53,7 @@ function Header({ isLogin, user }) {
               <li onClick={Logout}>로그아웃</li>
             ) : (
               <li>
-                <Icon loading name="spinner" style={{ margin: "0 19px" }} />
+                <Icon loading name="spinner" style={{ margin: "0 20px" }} />
               </li>
             )}
           </div>
