@@ -4,7 +4,7 @@
 
 도서 관리와 대출, 반납, 예약 등의 서비스를 지원하는 시스템
 
-:ballot_box_with_check: <a target="_blank" rel="noopener noreferrer" href="https://libsystem.vercel.app/">종합도서관리시스템</a>
+:ballot_box_with_check: <a target="_blank" rel="noopener noreferrer" href="https://libsystem.vercel.app/">종합도서관리시스템 (서버 연결 X)</a>
 
 ## Built With
 
